@@ -12,6 +12,7 @@
 */
 
 import Foundation
+import BMSCore
 
 /// An alias for a network request completion handler, receives back error, status, headers and data
 public typealias NetworkRequestCompletionHandler = (error:HttpError?, status:Int?, headers: [String:String]?, data:NSData?) -> Void
@@ -31,7 +32,7 @@ public class HttpClient{
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
 	public class func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-		HttpClient.sendRequest(to: resource, method: "GET" , headers: headers, completionHandler: completionHandler)
+		HttpClient.sendRequest(to: resource, method: HttpMethod.GET , headers: headers, completionHandler: completionHandler)
 	}
 	
 	/**
@@ -42,7 +43,7 @@ public class HttpClient{
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
 	public class func put(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-		HttpClient.sendRequest(to: resource, method: "PUT" , headers: headers, data: data, completionHandler: completionHandler)
+		HttpClient.sendRequest(to: resource, method: HttpMethod.PUT , headers: headers, data: data, completionHandler: completionHandler)
 	}
 	
 	/**
@@ -52,7 +53,7 @@ public class HttpClient{
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
 	public class func delete(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-		HttpClient.sendRequest(to: resource, method: "DELETE" , headers: headers, completionHandler: completionHandler)
+		HttpClient.sendRequest(to: resource, method: HttpMethod.DELETE, headers: headers, completionHandler: completionHandler)
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public class HttpClient{
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
 	public class func post(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-		HttpClient.sendRequest(to: resource, method: "POST" , headers: headers, data: data, completionHandler: completionHandler)
+		HttpClient.sendRequest(to: resource, method: HttpMethod.POST , headers: headers, data: data, completionHandler: completionHandler)
 	}
 	
 	/**
@@ -73,10 +74,74 @@ public class HttpClient{
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
 	public class func head(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-		HttpClient.sendRequest(to: resource, method: "HEAD" , headers: headers, completionHandler: completionHandler)
+		HttpClient.sendRequest(to: resource, method: HttpMethod.HEAD , headers: headers, completionHandler: completionHandler)
 	}
 }
 
+// For BMSCore
+private extension HttpClient{
+	private class func sendRequest(to resource: HttpResource, method:HttpMethod, headers:[String:String]? = nil, data: NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+		
+		
+		let request = Request(url: resource.uri, method: method)
+		
+		if let headers = headers {
+			request.headers = headers
+		}
+		
+		let networkRequestCompletionHandler = { (response: Response?, error: NSError?) -> Void in
+			guard response != nil else {
+				self.logger.error(String(HttpError.ConnectionFailure))
+				completionHandler(error:HttpError.ConnectionFailure, status: nil, headers: nil, data: nil)
+				return
+			}
+			
+			let response = response!
+			let httpStatus = response.statusCode!
+			var headers:[String:String] = [:]
+
+			for (name, value) in response.headers!{
+				let headerName = name as! String
+				let headerValue = value as! String
+				headers.updateValue(headerValue, forKey: headerName)
+			}
+			
+			let responseData = response.responseData
+			
+			switch httpStatus {
+			case 401:
+				self.logger.error(String(HttpError.Unauthorized))
+				self.logger.debug(response.responseText!)
+				completionHandler(error: HttpError.Unauthorized, status: httpStatus, headers: headers, data: responseData)
+				break
+			case 404:
+				self.logger.error(String(HttpError.NotFound))
+				self.logger.debug(response.responseText!)
+				completionHandler(error: HttpError.NotFound, status: httpStatus, headers: headers, data: responseData)
+				break
+			case 400 ... 599:
+				self.logger.error(String(HttpError.ServerError))
+				self.logger.debug(response.responseText!)
+				self.logger.debug(String(data:data!, encoding:NSUTF8StringEncoding)!)
+				completionHandler(error: HttpError.ServerError, status: httpStatus, headers: headers, data: responseData)
+				break
+			default:
+				completionHandler(error: nil, status: httpStatus, headers: headers, data: responseData)
+				break
+			}
+
+		}
+		
+		if let data = data {
+			request.sendData(data, completionHandler: networkRequestCompletionHandler)
+		} else {
+			request.sendWithCompletionHandler(networkRequestCompletionHandler)
+		}
+	}
+}
+
+/*
+// For NSURLSession
 private extension HttpClient {
 
 	/**
@@ -142,7 +207,6 @@ private extension HttpClient {
 			}
 		}
 		
-		print(request.allHTTPHeaderFields)
 		if (data == nil){
 			defaultSession.dataTaskWithRequest(request, completionHandler: networkTaskCompletionHandler).resume()
 		} else {
@@ -150,3 +214,4 @@ private extension HttpClient {
 		}
 	}
 }
+*/

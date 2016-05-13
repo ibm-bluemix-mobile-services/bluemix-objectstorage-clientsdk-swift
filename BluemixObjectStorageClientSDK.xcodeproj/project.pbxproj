@@ -25,6 +25,8 @@
 		3AB824BA1CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B51CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift */; };
 		3AB824BB1CE62CA8006CCAC5 /* ObjectStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B61CE62CA8006CCAC5 /* ObjectStoreTest.swift */; };
 		3AB824BC1CE62CA8006CCAC5 /* UtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B71CE62CA8006CCAC5 /* UtilsTest.swift */; };
+		3AB824BE1CE67650006CCAC5 /* BMSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB824BD1CE67650006CCAC5 /* BMSCore.framework */; };
+		3AB824C01CE67655006CCAC5 /* BMSAnalyticsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		3AB824B51CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectStoreObjectTests.swift; path = Tests/ObjectStoreObjectTests.swift; sourceTree = "<group>"; };
 		3AB824B61CE62CA8006CCAC5 /* ObjectStoreTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectStoreTest.swift; path = Tests/ObjectStoreTest.swift; sourceTree = "<group>"; };
 		3AB824B71CE62CA8006CCAC5 /* UtilsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UtilsTest.swift; path = Tests/UtilsTest.swift; sourceTree = "<group>"; };
+		3AB824BD1CE67650006CCAC5 /* BMSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSCore.framework; path = Carthage/Build/iOS/BMSCore.framework; sourceTree = "<group>"; };
+		3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSAnalyticsAPI.framework; path = Carthage/Build/iOS/BMSAnalyticsAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB824BE1CE67650006CCAC5 /* BMSCore.framework in Frameworks */,
+				3AB824C01CE67655006CCAC5 /* BMSAnalyticsAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +89,8 @@
 		3A043E1B1CE6247D00505429 = {
 			isa = PBXGroup;
 			children = (
+				3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */,
+				3AB824BD1CE67650006CCAC5 /* BMSCore.framework */,
 				3A632A9B1CE6258000A3ECD3 /* Sources */,
 				3AB824B21CE62C8B006CCAC5 /* Tests */,
 				3A632A851CE6254500A3ECD3 /* BluemixObjectStorageClientSDK_IOS */,
@@ -185,6 +193,7 @@
 				3A632A801CE6254500A3ECD3 /* Frameworks */,
 				3A632A811CE6254500A3ECD3 /* Headers */,
 				3A632A821CE6254500A3ECD3 /* Resources */,
+				3AB824C31CE67A78006CCAC5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -264,6 +273,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AB824C31CE67A78006CCAC5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/BMSCore.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A632A7F1CE6254500A3ECD3 /* Sources */ = {
@@ -347,6 +374,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -406,6 +437,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -453,6 +488,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -502,6 +541,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
