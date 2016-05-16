@@ -16,6 +16,7 @@ import Foundation
 import SimpleHttpClient
 import SimpleLogger
 #endif
+
 /// ObjectStorageObject instance represents a single object in the IBM Object Store service. Use ObjectStorageObject instance to load object content.
 public class ObjectStorageObject{
 
@@ -23,7 +24,7 @@ public class ObjectStorageObject{
 	public let name:String
 
 	/// Object resource
-	public let resource:HttpResource
+	internal let resource:HttpResource
 
 	internal let container:ObjectStorageContainer
 	

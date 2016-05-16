@@ -16,14 +16,15 @@ import Foundation
 import SimpleLogger
 import SimpleHttpClient
 #endif
+
 internal class AuthTokenManager {
 	private static let TOKEN_ENDPOINT = "https://identity.open.softlayer.com/v3/auth/tokens"
 	private static let TOKEN_RESOURCE = HttpResource(schema: "https", host: "identity.open.softlayer.com", port: "443", path: "/v3/auth/tokens")
 	private static let X_SUBJECT_TOKEN = "X-Subject-Token"
 	private let logger = Logger.init(forName: "AuthTokenManager")
 	
-	var userId: String
-	var password: String
+	var userId: String?
+	var password: String?
 	var projectId: String
 	var authToken: String?
 	
@@ -32,10 +33,23 @@ internal class AuthTokenManager {
 		self.password = password
 		self.projectId = projectId
 	}
+	
+	init(projectId: String, authToken: String){
+		logger.warn("ObjectStorage is initialized with explicit authToken, it will not be able to refresh it automatically.")
+		self.projectId = projectId
+		self.userId = nil
+		self.password = nil
+		self.authToken = authToken
+	}
 	 
-	func refreshAuthToken(completionHandler:(error: ObjectStorageError?) -> Void){
+	func refreshAuthToken(completionHandler:(error: ObjectStorageError?) -> Void) {
+		guard userId != nil && password != nil else {
+			logger.error(String(ObjectStorageError.CannotRefreshAuthToken))
+			return completionHandler(error: ObjectStorageError.CannotRefreshAuthToken)
+		}
+		
 		let headers = ["Content-Type":"application/json"];
-		let authRequestData = AuthorizationRequestBody(userId: userId, password: password, projectId: projectId).data()
+		let authRequestData = AuthorizationRequestBody(userId: userId!, password: password!, projectId: projectId).data()
 		
 		logger.info("Retrieving authToken from Identity Server")
 		HttpClient.post(resource: AuthTokenManager.TOKEN_RESOURCE, headers: headers, data: authRequestData) { error, status, headers, data in

@@ -24,7 +24,7 @@ public class ObjectStorageContainer{
 	public let name:String
 
 	/// Container resource
-	public let resource:HttpResource
+	internal let resource:HttpResource
 
 	internal let objectStore:ObjectStorage
 	private let logger:Logger

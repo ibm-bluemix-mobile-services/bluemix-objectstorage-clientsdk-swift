@@ -25,8 +25,6 @@
 		3AB824BA1CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B51CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift */; };
 		3AB824BB1CE62CA8006CCAC5 /* ObjectStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B61CE62CA8006CCAC5 /* ObjectStoreTest.swift */; };
 		3AB824BC1CE62CA8006CCAC5 /* UtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB824B71CE62CA8006CCAC5 /* UtilsTest.swift */; };
-		3AB824BE1CE67650006CCAC5 /* BMSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB824BD1CE67650006CCAC5 /* BMSCore.framework */; };
-		3AB824C01CE67655006CCAC5 /* BMSAnalyticsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +59,6 @@
 		3AB824B51CE62CA8006CCAC5 /* ObjectStoreObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectStoreObjectTests.swift; path = Tests/ObjectStoreObjectTests.swift; sourceTree = "<group>"; };
 		3AB824B61CE62CA8006CCAC5 /* ObjectStoreTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectStoreTest.swift; path = Tests/ObjectStoreTest.swift; sourceTree = "<group>"; };
 		3AB824B71CE62CA8006CCAC5 /* UtilsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UtilsTest.swift; path = Tests/UtilsTest.swift; sourceTree = "<group>"; };
-		3AB824BD1CE67650006CCAC5 /* BMSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSCore.framework; path = Carthage/Build/iOS/BMSCore.framework; sourceTree = "<group>"; };
-		3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSAnalyticsAPI.framework; path = Carthage/Build/iOS/BMSAnalyticsAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AB824BE1CE67650006CCAC5 /* BMSCore.framework in Frameworks */,
-				3AB824C01CE67655006CCAC5 /* BMSAnalyticsAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +83,6 @@
 		3A043E1B1CE6247D00505429 = {
 			isa = PBXGroup;
 			children = (
-				3AB824BF1CE67655006CCAC5 /* BMSAnalyticsAPI.framework */,
-				3AB824BD1CE67650006CCAC5 /* BMSCore.framework */,
 				3A632A9B1CE6258000A3ECD3 /* Sources */,
 				3AB824B21CE62C8B006CCAC5 /* Tests */,
 				3A632A851CE6254500A3ECD3 /* BluemixObjectStorageClientSDK_IOS */,

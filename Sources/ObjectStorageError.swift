@@ -43,7 +43,11 @@ public enum ObjectStorageError: Int, ErrorProtocol {
 	/// Object store not connected yet
 	case NotConnected = 6
 	
-	public static func from(httpError httpError:HttpError) -> ObjectStorageError{
+	/// Cannot refresh authToken, most probably cause is ObjectStorage initialized without username and password
+	case CannotRefreshAuthToken = 7
+	
+	
+	internal static func from(httpError httpError:HttpError) -> ObjectStorageError{
 		
 		switch httpError {
 		case HttpError.NotFound:

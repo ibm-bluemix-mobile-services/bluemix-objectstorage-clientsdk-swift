@@ -24,11 +24,11 @@ public class ObjectStorage {
 
 	/// Use this value in .connect(...)  methods to connect to Dallas instance of IBM Object Store
 	public static let REGION_DALLAS = "DALLAS"
-	public static let DALLAS_RESOURCE = HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
+	internal static let DALLAS_RESOURCE = HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
 
 	/// Use this value in .connect(...)  methods to connect to London instance of IBM Object Store
 	public static let REGION_LONDON = "LONDON"
-	public static let LONDON_RESOURCE = HttpResource(schema: "https", host: "lon.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
+	internal static let LONDON_RESOURCE = HttpResource(schema: "https", host: "lon.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
 
 	private let logger:Logger
 
@@ -47,7 +47,7 @@ public class ObjectStorage {
 	}
 
 	/**
-	Connect to ObjectStore
+	Connect to ObjectStorage using userId and password
 
 	- Parameter userId: UserId provided by the IBM Object Store. Can be obtained via VCAP_SERVICES, service instance keys or IBM Object Store dashboard.
 	- Parameter password: Password provided by the IBM Object Store. Can be obtained via VCAP_SERVICES, service instance keys or IBM Object Store dashboard.
@@ -67,6 +67,24 @@ public class ObjectStorage {
 			}
 		}
 	}
+	
+	/**
+	Connect to ObjectStorage using preobtained authToken
+	
+	- Parameter authToken: authToken obtained from Identity Server
+	- Parameter region: Defines whether ObjectStore should connect to Dallas or London instance of IBM Object Store. Use *ObjectStore.REGION_DALLAS* and *ObjectStore.REGION_LONDON* as values
+	*/
+	public func connect(authToken:String, region:String, completionHandler:(error: ObjectStorageError?) -> Void) {
+		self.authTokenManager = AuthTokenManager(projectId: projectId, authToken: authToken)
+		self.retrieveContainersList { (error, containers) in
+			if let error = error{
+				completionHandler(error: error)
+			} else {
+				completionHandler(error: nil)
+			}
+		}
+	}
+
 	
 	/**
 	Create a new container

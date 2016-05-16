@@ -15,12 +15,12 @@ import Foundation
 import BMSCore
 
 /// An alias for a network request completion handler, receives back error, status, headers and data
-public typealias NetworkRequestCompletionHandler = (error:HttpError?, status:Int?, headers: [String:String]?, data:NSData?) -> Void
+internal typealias NetworkRequestCompletionHandler = (error:HttpError?, status:Int?, headers: [String:String]?, data:NSData?) -> Void
 
 internal let NOOPNetworkRequestCompletionHandler:NetworkRequestCompletionHandler = {(a,b,c,d)->Void in}
 
 /// Use HttpClient to make Http requests
-public class HttpClient{
+internal class HttpClient{
 	
 	static let logger = Logger(forName: "HttpClient")
 	static private let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -31,7 +31,7 @@ public class HttpClient{
 	- Parameter headers: Dictionary of Http headers to add to request
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
-	public class func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+	internal class func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		HttpClient.sendRequest(to: resource, method: HttpMethod.GET , headers: headers, completionHandler: completionHandler)
 	}
 	
@@ -42,7 +42,7 @@ public class HttpClient{
 	- Parameter data: The data to send in request body
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
-	public class func put(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+	internal class func put(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		HttpClient.sendRequest(to: resource, method: HttpMethod.PUT , headers: headers, data: data, completionHandler: completionHandler)
 	}
 	
@@ -52,7 +52,7 @@ public class HttpClient{
 	- Parameter headers: Dictionary of Http headers to add to request
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
-	public class func delete(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+	internal class func delete(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		HttpClient.sendRequest(to: resource, method: HttpMethod.DELETE, headers: headers, completionHandler: completionHandler)
 	}
 	
@@ -63,7 +63,7 @@ public class HttpClient{
 	- Parameter data: The data to send in request body
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
-	public class func post(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+	internal class func post(resource resource: HttpResource, headers:[String:String]? = nil, data:NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		HttpClient.sendRequest(to: resource, method: HttpMethod.POST , headers: headers, data: data, completionHandler: completionHandler)
 	}
 	
@@ -73,7 +73,7 @@ public class HttpClient{
 	- Parameter headers: Dictionary of Http headers to add to request
 	- Parameter completionHandler: NetworkRequestCompletionHandler instance
 	*/
-	public class func head(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+	internal class func head(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		HttpClient.sendRequest(to: resource, method: HttpMethod.HEAD , headers: headers, completionHandler: completionHandler)
 	}
 }
@@ -82,8 +82,8 @@ public class HttpClient{
 private extension HttpClient{
 	private class func sendRequest(to resource: HttpResource, method:HttpMethod, headers:[String:String]? = nil, data: NSData? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
 		
-		
 		let request = Request(url: resource.uri, method: method)
+		request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
 		
 		if let headers = headers {
 			request.headers = headers
