@@ -14,7 +14,7 @@
 import XCTest
 import Foundation
 #if os(iOS)
-@testable import BluemixObjectStorageClientSDK_IOS
+@testable import BluemixObjectStorage
 #else
 #endif
 
@@ -33,6 +33,7 @@ class ObjectStoreTests: XCTestCase {
 		let objStore = ObjectStorage(projectId: Consts.projectId)
 		XCTAssertNotNil(objStore, "Failed to initialize ObjectStore")
 		XCTAssertEqual(objStore.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
+		
 		objStore.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
 			XCTAssertNil(error, "error != nil")
 			ObjectStoreTests.objStore = objStore

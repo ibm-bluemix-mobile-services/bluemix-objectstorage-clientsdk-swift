@@ -13,7 +13,7 @@
 
 import Foundation
 #if os(iOS)
-	@testable import BluemixObjectStorageClientSDK_IOS
+@testable import BluemixObjectStorage
 #else
 #endif
 

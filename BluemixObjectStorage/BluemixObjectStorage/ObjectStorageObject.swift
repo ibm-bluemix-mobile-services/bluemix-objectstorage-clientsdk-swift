@@ -43,24 +43,30 @@ public class ObjectStorageObject{
 		self.data = data
 	}
 
-	/*
+	/**
 	Load the object content
 
 	- Parameter shouldCache: Defines whether object content loaded from IBM Object Store service will be cached by this ObjectStoreObject instance
-	- Parameter completionHandler: Closure to be executed once object is created
 	*/
 	public func load(shouldCache shouldCache:Bool = false, completionHandler:(error:ObjectStorageError?, data:NSData?)->Void){
 		logger.info("Loading object")
-		let headers = Utils.createHeaderDictionary(authToken: container.objectStore.authTokenManager?.authToken)
-		HttpClient.get(resource: resource, headers: headers) { error, status, headers, data in
-			if let error = error{
-				completionHandler(error: ObjectStorageError.from(httpError: error), data: nil)
-			} else {
-				self.logger.info("Loaded object")
-				self.data = shouldCache ? data : nil;
-				completionHandler(error: nil, data: data)
+		
+		container.objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
+			guard error == nil else {
+				return completionHandler(error: error, data: nil)
 			}
-		}
+			
+			let headers = Utils.createHeaderDictionary(authToken: authToken)
+			HttpClient.get(resource: self.resource, headers: headers) { error, status, headers, data in
+				if let error = error{
+					completionHandler(error: ObjectStorageError.from(httpError: error), data: nil)
+				} else {
+					self.logger.info("Loaded object")
+					self.data = shouldCache ? data : nil;
+					completionHandler(error: nil, data: data)
+				}
+			}
+		})
 	}
 
 	/**
@@ -74,39 +80,49 @@ public class ObjectStorageObject{
 	Update object metadata
 
 	- Parameter metadata: a dictionary of metadata items, e.g. ["X-Object-Meta-Subject":"AmericanHistory"]. It is possible to supply multiple metadata items within same invocation. To delete a particular metadata item set it's value to an empty string, e.g. ["X-Object-Meta-Subject":""]. See Object Storage API v1 for more information about possible metadata items - http://developer.openstack.org/api-ref-objectstorage-v1.html
-	- Parameter completionHandler: Closure to be executed once metadata is updated.
 	*/
 	public func updateMetadata(metadata metadata:Dictionary<String, String>, completionHandler: (error: ObjectStorageError?)->Void){
 		logger.info("Updating metadata :: \(metadata)")
-		
-		let headers = Utils.createHeaderDictionary(authToken: container.objectStore.authTokenManager?.authToken, additionalHeaders: metadata)
-		
-		HttpClient.post(resource: resource, headers: headers) { error, status, headers, data in
-			if let error = error {
-				completionHandler(error:ObjectStorageError.from(httpError: error))
-			} else {
-				self.logger.info("Metadata updated :: \(metadata)")
-				completionHandler(error:nil)
+		container.objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
+			guard error == nil else {
+				return completionHandler(error: error)
 			}
-		}
+			
+			let headers = Utils.createHeaderDictionary(authToken: authToken, additionalHeaders: metadata)
+			
+			HttpClient.post(resource: self.resource, headers: headers) { error, status, headers, data in
+				if let error = error {
+					completionHandler(error:ObjectStorageError.from(httpError: error))
+				} else {
+					self.logger.info("Metadata updated :: \(metadata)")
+					completionHandler(error:nil)
+				}
+			}
+		})
+		
 	}
 
 	/**
 	Retrieve object metadata. The metadata will be returned to a completionHandler as a Dictionary<String, String> instance with set of keys and values
 
-	- Parameter completionHandler: Closure to be executed once metadata is retrieved.
 	*/
 	public func retrieveMetadata(completionHandler completionHandler: (error: ObjectStorageError?, metadata: [String:String]?) -> Void){
 		logger.info("Retrieving metadata")
 		
-		let headers = Utils.createHeaderDictionary(authToken: container.objectStore.authTokenManager?.authToken)
-		HttpClient.head(resource: resource, headers: headers) { error, status, headers, data in
-			if let error = error {
-				completionHandler(error: ObjectStorageError.from(httpError: error), metadata: nil)
-			} else {
-				self.logger.info("Metadata retrieved :: \(headers)")
-				completionHandler(error: nil, metadata: headers);
+		container.objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
+			guard error == nil else {
+				return completionHandler(error: error, metadata: nil)
 			}
-		}
+			
+			let headers = Utils.createHeaderDictionary(authToken: authToken)
+			HttpClient.head(resource: self.resource, headers: headers) { error, status, headers, data in
+				if let error = error {
+					completionHandler(error: ObjectStorageError.from(httpError: error), metadata: nil)
+				} else {
+					self.logger.info("Metadata retrieved :: \(headers)")
+					completionHandler(error: nil, metadata: headers);
+				}
+			}
+		})
 	}
 }
