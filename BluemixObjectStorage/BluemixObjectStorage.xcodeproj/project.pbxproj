@@ -13,8 +13,6 @@
 		3AF4059D1D00C6DC003EF0B4 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF4059A1D00C6DC003EF0B4 /* HttpClient.swift */; };
 		3AF4059E1D00C6DC003EF0B4 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF4059B1D00C6DC003EF0B4 /* HttpError.swift */; };
 		3AF4059F1D00C6DC003EF0B4 /* HttpResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF4059C1D00C6DC003EF0B4 /* HttpResource.swift */; };
-		3AF405BA1D00C99C003EF0B4 /* BMSAnalyticsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405B81D00C99C003EF0B4 /* BMSAnalyticsAPI.framework */; };
-		3AF405BB1D00C99C003EF0B4 /* BMSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405B91D00C99C003EF0B4 /* BMSCore.framework */; };
 		3AF405BF1D00CA0D003EF0B4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405BE1D00CA0D003EF0B4 /* Utils.swift */; };
 		3AF405C11D00CA19003EF0B4 /* SimpleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405C01D00CA19003EF0B4 /* SimpleLogger.swift */; };
 		3AF405C31D00CA4B003EF0B4 /* AuthorizationRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405C21D00CA4B003EF0B4 /* AuthorizationRequestBody.swift */; };
@@ -27,6 +25,8 @@
 		3AF405D41D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405CF1D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift */; };
 		3AF405D51D00CAD6003EF0B4 /* ObjectStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405D01D00CAD6003EF0B4 /* ObjectStoreTest.swift */; };
 		3AF405D61D00CAD6003EF0B4 /* UtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */; };
+		3AF405D91D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405D71D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework */; };
+		3AF405DA1D00EE4A003EF0B4 /* BMSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405D81D00EE4A003EF0B4 /* BMSCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +49,6 @@
 		3AF4059A1D00C6DC003EF0B4 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		3AF4059B1D00C6DC003EF0B4 /* HttpError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		3AF4059C1D00C6DC003EF0B4 /* HttpResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResource.swift; sourceTree = "<group>"; };
-		3AF405B81D00C99C003EF0B4 /* BMSAnalyticsAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSAnalyticsAPI.framework; path = Carthage/Build/iOS/BMSAnalyticsAPI.framework; sourceTree = "<group>"; };
-		3AF405B91D00C99C003EF0B4 /* BMSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSCore.framework; path = Carthage/Build/iOS/BMSCore.framework; sourceTree = "<group>"; };
 		3AF405BE1D00CA0D003EF0B4 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		3AF405C01D00CA19003EF0B4 /* SimpleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLogger.swift; sourceTree = "<group>"; };
 		3AF405C21D00CA4B003EF0B4 /* AuthorizationRequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationRequestBody.swift; sourceTree = "<group>"; };
@@ -63,6 +61,8 @@
 		3AF405CF1D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreObjectTests.swift; sourceTree = "<group>"; };
 		3AF405D01D00CAD6003EF0B4 /* ObjectStoreTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreTest.swift; sourceTree = "<group>"; };
 		3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsTest.swift; sourceTree = "<group>"; };
+		3AF405D71D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSAnalyticsAPI.framework; path = Carthage/Build/iOS/BMSAnalyticsAPI.framework; sourceTree = "<group>"; };
+		3AF405D81D00EE4A003EF0B4 /* BMSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSCore.framework; path = Carthage/Build/iOS/BMSCore.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AF405BA1D00C99C003EF0B4 /* BMSAnalyticsAPI.framework in Frameworks */,
-				3AF405BB1D00C99C003EF0B4 /* BMSCore.framework in Frameworks */,
+				3AF405D91D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework in Frameworks */,
+				3AF405DA1D00EE4A003EF0B4 /* BMSCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +89,8 @@
 		3AF4056F1D00C5E4003EF0B4 = {
 			isa = PBXGroup;
 			children = (
-				3AF405B81D00C99C003EF0B4 /* BMSAnalyticsAPI.framework */,
-				3AF405B91D00C99C003EF0B4 /* BMSCore.framework */,
+				3AF405D71D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework */,
+				3AF405D81D00EE4A003EF0B4 /* BMSCore.framework */,
 				3AF4057B1D00C5E4003EF0B4 /* BluemixObjectStorage */,
 				3AF405871D00C5E4003EF0B4 /* BluemixObjectStorageTests */,
 				3AF4057A1D00C5E4003EF0B4 /* Products */,
@@ -181,7 +181,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AF4058D1D00C5E4003EF0B4 /* Build configuration list for PBXNativeTarget "BluemixObjectStorage" */;
 			buildPhases = (
-				3AF405BC1D00C9BA003EF0B4 /* Run Script */,
 				3AF405741D00C5E4003EF0B4 /* Sources */,
 				3AF405751D00C5E4003EF0B4 /* Frameworks */,
 				3AF405761D00C5E4003EF0B4 /* Headers */,
@@ -266,25 +265,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3AF405BC1D00C9BA003EF0B4 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/BMSCore.framework",
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3AF405741D00C5E4003EF0B4 /* Sources */ = {
