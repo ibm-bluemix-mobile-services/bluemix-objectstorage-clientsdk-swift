@@ -1,10 +1,5 @@
 # .travis.yml
-
-# whitelist
-branches:
-  only:
-    - development
-    - master
+language: objective-c
 
 env:
  # global:
