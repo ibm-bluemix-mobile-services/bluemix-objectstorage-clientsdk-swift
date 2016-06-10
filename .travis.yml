@@ -6,13 +6,24 @@ branches:
     - development
     - master
 
+env:
+ # global:
+ # - PATH=/usr/local/bin:$PATH
+ # - LC_TYPE=en_US.UTF-8
+
 matrix:
   include:
     - os: osx
-      osx_image: xcode7.2
+      osx_image: xcode7.3
       sudo: required
 
+#before_script:
+ # - mkdir -p /Users/travis/Library/Developer/CoreSimulator/Devices/5752202B-E7A2-4B6C-9D7B-B211C2F54654/data/Documents
+ # - chmod -R 777 /Users/travis/Library/Developer/CoreSimulator
+
 script:
-  - echo ">> Let's build and test the '$TRAVIS_BRANCH' branch for bluemix-objectstore-clientsdk-swift."
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./build/build_package.sh ; fi
-  - echo ">> Build and tests completed. See above for status."
+  - pod setup
+  - pod spec lint --allow-warnings
+  - carthage update
+  - xcodebuild -scheme 'BluemixObjectStorage' clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+  - xcodebuild test -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6s'
