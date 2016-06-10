@@ -19,7 +19,6 @@ DerivedData
 *.hmap
 *.ipa
 docs/
-.build/
 
 # Bundler
 .bundle
