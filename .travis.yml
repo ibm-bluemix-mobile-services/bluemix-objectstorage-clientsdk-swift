@@ -2,9 +2,9 @@
 language: objective-c
 
 env:
- # global:
- # - PATH=/usr/local/bin:$PATH
- # - LC_TYPE=en_US.UTF-8
+  global:
+  - PATH=/usr/local/bin:$PATH
+  - LC_TYPE=en_US.UTF-8
 
 matrix:
   include:
@@ -17,6 +17,7 @@ matrix:
  # - chmod -R 777 /Users/travis/Library/Developer/CoreSimulator
 
 script:
+  - echo "running script..."
   - pod setup
   - pod spec lint --allow-warnings
   - carthage update
