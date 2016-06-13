@@ -2,6 +2,10 @@
 
 [![Swift](https://img.shields.io/badge/Swift-2.2-orange.svg)](https://swift.org)
 
+[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift)
+[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.svg?branch=development)](hhttps://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift)
+
+
 ## Installation
 
 Use Cocoapods to install BluemixObjectStorage SDK

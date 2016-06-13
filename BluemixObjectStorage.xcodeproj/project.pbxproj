@@ -418,6 +418,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -439,6 +440,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.BluemixObjectStorage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -481,6 +483,7 @@
 				3AF4058F1D00C5E4003EF0B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3AF405901D00C5E4003EF0B4 /* Build configuration list for PBXNativeTarget "BluemixObjectStorageTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +492,7 @@
 				3AF405921D00C5E4003EF0B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
