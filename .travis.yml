@@ -22,4 +22,4 @@ script:
   - pod spec lint --allow-warnings
   - carthage update
   - xcodebuild -scheme 'BluemixObjectStorage' clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-  #- xcodebuild test -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6s'
+  - xcodebuild test -project 'BluemixObjectStorage.xcodeproj' -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6s'
