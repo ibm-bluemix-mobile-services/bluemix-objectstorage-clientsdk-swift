@@ -18,9 +18,9 @@ import Foundation
 #endif
 
 struct Consts{
-	static let projectId = ""
-	static let userId = ""
-	static let password = ""
+	static let projectId = "09a0eea3fdcd4095aff2600f7a73e2d9"
+	static let userId = "8d261e25c5bb4a6783c7cde133f8f1dd"
+	static let password = "V7]W!i!065jjThaw"
 	static let region = ObjectStorage.REGION_DALLAS
 
 	static let containerName = "testcontainer"

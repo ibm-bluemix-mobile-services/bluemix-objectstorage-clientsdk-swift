@@ -43,6 +43,8 @@ class ObjectStoreContainerTests: XCTestCase {
 		waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
 			XCTAssertNil(error, "Test timeout")
 		}
+        objStore.deleteContainer(name: Consts.containerName, completionHandler:{ (error) in
+        print(error)})
 	}
 	
 	func test2_CreateContainer(){
@@ -51,7 +53,8 @@ class ObjectStoreContainerTests: XCTestCase {
 		
 		let expecatation = expectationWithDescription("doneExpectation")
 
-		objStore!.createContainer(name: Consts.containerName) {(error, container) in
+        
+        objStore!.createContainer(name: Consts.containerName) {(error, container) in
 			XCTAssertNil(error, "error != nil")
 			XCTAssertNotNil(container, "container == nil")
 			XCTAssertEqual(container?.name, Consts.containerName, "container.name != \(Consts.containerName)")
