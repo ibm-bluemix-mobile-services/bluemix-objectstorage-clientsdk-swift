@@ -122,7 +122,12 @@ private extension HttpClient{
 			case 400 ... 599:
 				self.logger.error(String(HttpError.ServerError))
 				self.logger.debug(response.responseText!)
-				self.logger.debug(String(data:data!, encoding:NSUTF8StringEncoding)!)
+                if data != nil{
+                    self.logger.debug(String(data:data!, encoding:NSUTF8StringEncoding)!)
+                }else{
+                    let noData = NSData()
+                    self.logger.debug(String(data:noData, encoding:NSUTF8StringEncoding)!)
+                }
 				completionHandler(error: HttpError.ServerError, status: httpStatus, headers: headers, data: responseData)
 				break
 			default:

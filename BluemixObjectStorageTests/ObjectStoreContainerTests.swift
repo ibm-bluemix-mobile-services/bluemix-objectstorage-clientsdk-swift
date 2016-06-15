@@ -44,7 +44,7 @@ class ObjectStoreContainerTests: XCTestCase {
 			XCTAssertNil(error, "Test timeout")
 		}
         objStore.deleteContainer(name: Consts.containerName, completionHandler:{ (error) in
-        print(error)})
+        print("Error Deleting Container in test1_ObjectStoreContainer: \(error)")})
 	}
 	
 	func test2_CreateContainer(){
@@ -63,6 +63,15 @@ class ObjectStoreContainerTests: XCTestCase {
 			ObjectStoreContainerTests.container = container
 			expecatation.fulfill()
 		}
+        var isCreated = false
+        var numTries = 1
+        while(!isCreated && numTries>4){
+            objStore!.retrieveContainer(name: Consts.containerName, completionHandler:{(error) in
+                isCreated = (error == nil)
+            })
+            numTries += 1
+        }
+        print("After \(numTries), container does exist = \(isCreated)")
 	
 		waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
 			XCTAssertNil(error, "Test timeout")
@@ -78,7 +87,7 @@ class ObjectStoreContainerTests: XCTestCase {
 		let metadata:Dictionary<String, String> = [Consts.containerMetadataTestName:Consts.metadataTestValue]
 		
 		container!.updateMetadata(metadata: metadata) { (error) in
-			XCTAssertNil(error, "error != nil")
+			XCTAssertNil(error, "error != nil, error = \(error)")
 			expecatation.fulfill()
 		}
 
