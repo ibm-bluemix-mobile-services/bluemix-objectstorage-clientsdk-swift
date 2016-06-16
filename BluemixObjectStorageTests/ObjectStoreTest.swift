@@ -22,7 +22,7 @@ class ObjectStoreTests: XCTestCase {
     
     static var objStore: ObjectStorage?
     static var container: ObjectStorageContainer?
-    static var mockManager: Manager = ObjectStoreHttpMock()
+    static var mockManager: Manager = ObjectStoreMock()
     
     
     override class func setUp() {
