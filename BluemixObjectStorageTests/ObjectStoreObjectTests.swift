@@ -24,6 +24,20 @@ class ObjectStoreObjectTests: XCTestCase {
     static var objStore: ObjectStorage?
     static var container: ObjectStorageContainer?
     static var object: ObjectStorageObject?
+    static var mockManager: Manager = ObjectStoreMock()//TODO: OBJECT STORE HTTP MANAGER MOCK
+    
+    
+    override class func setUp() {
+        self.objStore = ObjectStorage(projectId: Consts.projectId)
+        self.objStore!.manager = ObjectStoreObjectTests.mockManager
+        self.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler:{(error) in
+            if error != nil{
+                print("Error \"connecting\" before ObjectStoreTests class")
+            }else{
+                print("Set up mocks for test")
+            }
+        })
+    }
     
     override func setUp() {
         self.continueAfterFailure = false
@@ -32,13 +46,11 @@ class ObjectStoreObjectTests: XCTestCase {
     func test1_ObjectStore(){
         let expecatation = expectationWithDescription("doneExpectation")
         
-        let objStore = ObjectStorage(projectId: Consts.projectId)
-        XCTAssertNotNil(objStore, "Failed to initialize ObjectStore")
-        XCTAssertEqual(objStore.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
+        XCTAssertNotNil(ObjectStoreObjectTests.objStore, "Failed to initialize ObjectStore")
+        XCTAssertEqual(ObjectStoreObjectTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
         
-        objStore.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
+        ObjectStoreObjectTests.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
             XCTAssertNil(error, "error != nil")
-            ObjectStoreObjectTests.objStore = objStore
             expecatation.fulfill()
         })
         
@@ -49,10 +61,9 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test2_CreateContainer(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let objStore = ObjectStoreObjectTests.objStore
-        XCTAssertNotNil(objStore, "objStore == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.objStore, "objStore == nil")
         
-        objStore!.createContainer(name: Consts.containerName) {(error, container) in
+        ObjectStoreObjectTests.objStore!.createContainer(name: Consts.containerName) {(error, container) in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(container, "container == nil")
             XCTAssertEqual(container?.name, Consts.containerName, "container.name != \(Consts.containerName)")
@@ -70,12 +81,11 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test3_StoreBigObject(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let container = ObjectStoreObjectTests.container
-        XCTAssertNotNil(container, "container == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.container, "container == nil")
         
         let bigData = Consts.bigObjectData
         print("bigObjectData.length == \(bigData.length)")
-        container!.storeObject(name: Consts.objectName, data: bigData) { (error, object) in
+        ObjectStoreObjectTests.container!.storeObject(name: Consts.objectName, data: bigData) { (error, object) in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(object, "object == nil")
             XCTAssertEqual(object?.name, Consts.objectName, "object.name != \(Consts.objectName)")
@@ -83,7 +93,9 @@ class ObjectStoreObjectTests: XCTestCase {
             XCTAssertNotNil(object?.resource, "object.resource == nil")
             XCTAssertEqual(object?.data, bigData, "object.data != Consts.bigObjectData")
             ObjectStoreObjectTests.object = object
-            ObjectStoreObjectTests.object!.manager = OSObjectHttpMock()
+            let mang = OSObjectHttpMock()
+            mang.data = object?.data
+            ObjectStoreObjectTests.object!.manager = mang
             expecatation.fulfill()
         }
         
@@ -94,14 +106,13 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test4_LoadBigObjectNoCaching(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let object = ObjectStoreObjectTests.object
-        XCTAssertNotNil(object, "object == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
-        object!.load(shouldCache: false) { error, data in
+        ObjectStoreObjectTests.object!.load(shouldCache: false) { error, data in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(data, "data == nil")
             XCTAssertEqual(data, Consts.bigObjectData, "data != Consts.bigObjectData")
-            XCTAssertNil(object!.data, "object.data != nil")
+            XCTAssertNil(ObjectStoreObjectTests.object!.data, "object.data != nil")
             expecatation.fulfill()
         }
         
@@ -112,14 +123,13 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test5_LoadObjectWithCaching(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let object = ObjectStoreObjectTests.object
-        XCTAssertNotNil(object, "object == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
-        object!.load(shouldCache: true) { error, data in
+        ObjectStoreObjectTests.object!.load(shouldCache: true) { error, data in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(data, "data == nil")
             XCTAssertEqual(data, Consts.bigObjectData, "data != Consts.bigObjectData")
-            XCTAssertEqual(object!.data, Consts.bigObjectData, "object.data != Consts.objectData")
+            XCTAssertEqual(ObjectStoreObjectTests.object!.data, Consts.bigObjectData, "object.data != Consts.objectData")
             expecatation.fulfill()
         }
         
@@ -130,11 +140,10 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test6_UpdateMetadata(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let object = ObjectStoreObjectTests.object
-        XCTAssertNotNil(object, "object == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         let metadata:Dictionary<String, String> = [Consts.objectMetadataTestName:Consts.metadataTestValue]
-        object!.updateMetadata(metadata: metadata) {error in
+        ObjectStoreObjectTests.object!.updateMetadata(metadata: metadata) {error in
             XCTAssertNil(error, "error != nil")
             expecatation.fulfill()
         }
@@ -146,10 +155,9 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test7_RetrieveMetadata(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let object = ObjectStoreObjectTests.object
-        XCTAssertNotNil(object, "object == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
-        object!.retrieveMetadata {error, metadata in
+        ObjectStoreObjectTests.object!.retrieveMetadata {error, metadata in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(metadata, "metadata == nil")
             XCTAssertEqual(metadata![Consts.objectMetadataTestName], Consts.metadataTestValue, "metadataTestValue != \(Consts.metadataTestValue)")
@@ -164,10 +172,9 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test8_DeleteObject(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let object = ObjectStoreObjectTests.object
-        XCTAssertNotNil(object, "object == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
-        object!.delete {error in
+        ObjectStoreObjectTests.object!.delete {error in
             XCTAssertNil(error, "error != nil")
             expecatation.fulfill()
         }
@@ -179,10 +186,9 @@ class ObjectStoreObjectTests: XCTestCase {
     
     func test9_DeleteContainer(){
         let expecatation = expectationWithDescription("doneExpectation")
-        let container = ObjectStoreObjectTests.container
-        XCTAssertNotNil(container, "container == nil")
+        XCTAssertNotNil(ObjectStoreObjectTests.container, "container == nil")
         
-        container!.delete {error in
+        ObjectStoreObjectTests.container!.delete {error in
             XCTAssertNil(error, "error != nil")
             expecatation.fulfill()
         }

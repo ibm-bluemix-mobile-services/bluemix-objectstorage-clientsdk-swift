@@ -49,7 +49,7 @@ internal class OSContainerHttpMock: Manager{
      
     */
     internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("GET called in CONTAINER. Headers: \(headers). Resource: \(resource)")
+        print("\nGET called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         let containerName = getContainerNameFromPath(resource.path)
         
@@ -69,7 +69,7 @@ internal class OSContainerHttpMock: Manager{
         Data: Optional(<74657374 64617461>)
      */
     internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("PUT called in CONTAINER. Headers: \(headers). Resource: \(resource). Data: \(data)")
+        print("\nPUT called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         let containerName = getContainerNameFromPath(resource.path)
         let objectName = getObjectNameFromPath(resource.path)
@@ -92,7 +92,7 @@ internal class OSContainerHttpMock: Manager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
      */
     internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("DELETE called in CONTAINER. Headers: \(headers). Resource: \(resource)")
+        print("\nDELETE called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         let containerName = getContainerNameFromPath(resource.path)
         let objectName = getObjectNameFromPath(resource.path)
@@ -118,7 +118,7 @@ internal class OSContainerHttpMock: Manager{
         Data: nil
      */
     internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("POST called in CONTAINER. Headers: \(headers). Resource: \(resource). Data: \(data)")
+        print("\nPOST called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         self.containerMetadataValue = headers![OSContainerHttpMock.containerMetadataTestName]
         
@@ -132,7 +132,7 @@ internal class OSContainerHttpMock: Manager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
      */
     internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("HEAD called in CONTAINER. Headers: \(headers). Resource: \(resource)")
+        print("\nHEAD called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         var newHeaders = headers!
         newHeaders[OSContainerHttpMock.containerMetadataTestName] = self.containerMetadataValue
