@@ -140,22 +140,22 @@ internal class ObjectStoreMock: ClientManager{
     }
     
     internal func getInstanceFromPath(path:String)->String{
-        return "09a0eea3fdcd4095aff2600f7a73e2d9"
+        return "09a0eea3fdcd4095aff2600f7a73e2d9" //TODO actual logic to return instanceId
     }
     
     internal func getContainerFromPath(path:String)->String{
-        return "testcontainer"
+        return "testcontainer"//TODO actual logic to return actual container
     }
     
     internal func makeContainerList(instance:String)->String{
-        return "testcontainer\n"
+        return "testcontainer\n" //TODO actual logic to return actual container list
     }
     
     internal func isGetContainerListCall(path:String)->Bool{
-        return true
+        return true //TODO actual logic to return if containerListRequest
     }
     
-    internal func getData(data: String)->NSData{
+    internal func getData(data: String)->NSData{ //segFaults made me do this
         return data.dataUsingEncoding(NSUTF8StringEncoding)!
     }
     

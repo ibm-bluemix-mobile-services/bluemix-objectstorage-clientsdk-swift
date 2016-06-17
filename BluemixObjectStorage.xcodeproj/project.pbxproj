@@ -32,6 +32,7 @@
 		CE1946B41D1358A10099BAC3 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B31D1358A10099BAC3 /* Manager.swift */; };
 		CE1946B61D1358CC0099BAC3 /* AuthTokenManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */; };
 		CE1946B81D1358F90099BAC3 /* ObjecStoreContainerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */; };
+		CE1946BA1D1456500099BAC3 /* OSObjectHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		CE1946B31D1358A10099BAC3 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenManagerMock.swift; sourceTree = "<group>"; };
 		CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjecStoreContainerMock.swift; sourceTree = "<group>"; };
+		CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSObjectHttpMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				CE1946AE1D1358430099BAC3 /* ObjectStoreMock.swift */,
 				CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */,
 				CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */,
+				CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */,
 			);
 			path = BluemixObjectStorageTests;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				3AF405D41D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift in Sources */,
 				3AF405D51D00CAD6003EF0B4 /* ObjectStoreTest.swift in Sources */,
 				3AF405D31D00CAD6003EF0B4 /* ObjectStoreContainerTests.swift in Sources */,
+				CE1946BA1D1456500099BAC3 /* OSObjectHttpMock.swift in Sources */,
 				CE1946B81D1358F90099BAC3 /* ObjecStoreContainerMock.swift in Sources */,
 				CE1946B61D1358CC0099BAC3 /* AuthTokenManagerMock.swift in Sources */,
 				3AF405D21D00CAD6003EF0B4 /* Consts.swift in Sources */,

@@ -29,10 +29,10 @@ class ObjectStoreTests: XCTestCase {
         self.objStore = ObjectStorage(projectId: Consts.projectId)
         self.objStore!.manager = ObjectStoreTests.mockManager
         self.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler:{(error) in
-            if error == nil{
-                print("error connecting before test")
+            if error != nil{
+                print("Error \"connecting\" before ObjectStoreTests class")
             }else{
-                print("set up mocks for test")
+                print("Set up mocks for test")
             }
         })
     }
@@ -49,7 +49,6 @@ class ObjectStoreTests: XCTestCase {
         
         ObjectStoreTests.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
             XCTAssertNil(error, "error != nil")
-            //ObjectStoreTests.objStore = objStore
             expecatation.fulfill()
         })
         
@@ -59,7 +58,6 @@ class ObjectStoreTests: XCTestCase {
     }
     
     func test2_UpdateMetadata(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         let metadata:Dictionary<String, String> = [Consts.accountMetadataTestName:Consts.metadataTestValue]
@@ -74,7 +72,6 @@ class ObjectStoreTests: XCTestCase {
     }
     
     func test3_RetrieveMetadata(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore!, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         
@@ -91,7 +88,6 @@ class ObjectStoreTests: XCTestCase {
     }
     
     func test4_CreateContainer(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         
@@ -110,7 +106,6 @@ class ObjectStoreTests: XCTestCase {
     }
     
     func test5_RetrieveContainer(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         
@@ -129,7 +124,6 @@ class ObjectStoreTests: XCTestCase {
     }
     
     func test6_RetrieveContainersList(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         
@@ -151,7 +145,6 @@ class ObjectStoreTests: XCTestCase {
     
     
     func test7_DeleteContainer(){
-        //let objStore = ObjectStoreTests.objStore
         XCTAssertNotNil(ObjectStoreTests.objStore, "objStore == nil")
         let expecatation = expectationWithDescription("doneExpectation")
         

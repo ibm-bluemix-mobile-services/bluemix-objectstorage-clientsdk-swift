@@ -59,6 +59,7 @@ class ObjectStoreObjectTests: XCTestCase {
             XCTAssertNotNil(container?.objectStore, "container.objectStore == nil")
             XCTAssertNotNil(container?.resource, "container.resource == nil")
             ObjectStoreObjectTests.container = container
+            ObjectStoreObjectTests.container!.manager = OSContainerHttpMock()
             expecatation.fulfill()
         }
         
@@ -82,6 +83,7 @@ class ObjectStoreObjectTests: XCTestCase {
             XCTAssertNotNil(object?.resource, "object.resource == nil")
             XCTAssertEqual(object?.data, bigData, "object.data != Consts.bigObjectData")
             ObjectStoreObjectTests.object = object
+            ObjectStoreObjectTests.object!.manager = OSObjectHttpMock()
             expecatation.fulfill()
         }
         
