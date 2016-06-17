@@ -32,49 +32,110 @@ internal class OSContainerHttpMock: Manager{
     static let pathPrefix = "/v1"
     
     //maps container to a list of objects
-    internal var container = [String:[String]]()
-    internal var accoutMetaDataValue:String?
+    internal var containers = [String:[String]]()
+    internal var objData = [String: NSData]()
+    internal var containerMetadataValue:String?
     
-    //Retrieve Object or Object List
+
+    /*
+     Call to retrieve object or object list
+     Example call to retrieve object:
+        Headers: ["X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+     
+     Example call to retrieve a list of objects in the container:
+        Headers: ["X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
+     
+    */
     internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("GET called in CONTAINER. Headers: \(headers). Resource: \(resource)")
         
-//        Headers: Optional(["X-Auth-Token": "mockToken"]). Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+        let containerName = getContainerNameFromPath(resource.path)
         
-        //Headers: Optional(["X-Auth-Token": "mockToken"]). Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
+        if self.isGetObjectListCall(resource.path){
+            completionHandler(error: nil, status: 200, headers: headers, data: makeListOfObjects(containerName))
+        }else{
+            let objectName = getObjectNameFromPath(resource.path)
+            completionHandler(error: nil, status: 200, headers: headers, data: self.objData[objectName])
+        }
     }
     
-    //Store an object
+    /*
+     Called to store an object
+     Example PUT call:
+        Headers: ["X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+        Data: Optional(<74657374 64617461>)
+     */
     internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("PUT called in CONTAINER. Headers: \(headers). Resource: \(resource). Data: \(data)")
         
-//        Headers: Optional(["X-Auth-Token": "mockToken"]). Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt"). Data: Optional(<74657374 64617461>)
-//        
+        let containerName = getContainerNameFromPath(resource.path)
+        let objectName = getObjectNameFromPath(resource.path)
+        
+        if containers[containerName]==nil {
+            containers[containerName] = [objectName]
+        }else{
+            var objectList = containers[containerName]
+            objectList?.append(objectName)
+            containers[containerName] = objectList//TODO needs to be unwrapped?
+        }
+        objData[objectName] = data
+        completionHandler(error: nil, status: 201, headers: headers, data: nil)
     }
     
-    //Delete Object
+    /*
+     Call to delete Object
+     Example call:
+        Headers: ["X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+     */
     internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("DELETE called in CONTAINER. Headers: \(headers). Resource: \(resource)")
         
-//        Headers: Optional(["X-Auth-Token": "mockToken"]). Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+        let containerName = getContainerNameFromPath(resource.path)
+        let objectName = getObjectNameFromPath(resource.path)
         
+        if let objectList = self.containers[containerName]{
+            if objectList.contains(objectName){
+                let updatedObjList = objectList.filter{$0 != objectName}
+                self.containers[containerName] = updatedObjList
+                completionHandler(error: nil, status: 200, headers: headers, data: nil)
+            }else{
+                completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make error that object does not exist
+            }
+        }else{
+            completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make errir that there are no objects in this container
+        }
     }
     
-    //Update Metadata
+    /*
+     Call to update metadata
+     Example call:
+        Headers: ["X-Container-Meta-Test": "testvalue", "X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
+        Data: nil
+     */
     internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("POST called in CONTAINER. Headers: \(headers). Resource: \(resource). Data: \(data)")
         
-        self.accoutMetaDataValue = headers![ObjectStoreMock.accountMetadataTestName]
+        self.containerMetadataValue = headers![OSContainerHttpMock.containerMetadataTestName]
         
         completionHandler(error: nil, status: 200, headers: headers, data: nil)
     }
     
-    //Retrieve Metadata
+    /*
+     Call to retrieve metadata
+     Example call:
+        Headers: ["X-Auth-Token": "mockToken"]
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
+     */
     internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("HEAD called in CONTAINER. Headers: \(headers). Resource: \(resource)")
         
         var newHeaders = headers!
-        newHeaders[OSContainerHttpMock.accountMetadataTestName] = self.accoutMetaDataValue
+        newHeaders[OSContainerHttpMock.containerMetadataTestName] = self.containerMetadataValue
         
         completionHandler(error: nil, status: 200, headers: newHeaders, data: nil)
     }
@@ -85,5 +146,30 @@ internal class OSContainerHttpMock: Manager{
     
     internal func getAuthTokenManager(projectId: String, authToken: String)->AuthTokenManager{
         return AuthTokenManager(projectId: projectId, authToken: authToken)
+    }
+    
+    internal func getContainerNameFromPath(path:String)->String{
+        return "testcontainer"//TODO real logic
+    }
+    
+    internal func getObjectNameFromPath(path:String)->String{
+        return "testojbect.txt"//TODO real logic
+    }
+    
+    internal func isGetObjectListCall(path:String)->Bool{
+        let containerName = getContainerNameFromPath(path)
+        return !path.containsString("\(containerName)/")
+    }
+    
+    internal func makeListOfObjects(container:String)->NSData{
+        var data:String = ""
+        
+        
+        for object in self.containers[container]! {
+            data.appendContentsOf(object)
+            data.appendContentsOf("\n")
+        }
+        
+        return data.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }

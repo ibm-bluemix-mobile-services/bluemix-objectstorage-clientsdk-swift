@@ -65,18 +65,29 @@ internal class ObjectStoreMock: ClientManager{
         
     }
     
+    /*
+     Call to get a container, or a list of containers
+     Example call to get a container:
+     
+     Example call to get a list of containers:
+     
+     */
     internal override func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nGET called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
         if self.isGetContainerListCall(resource.path){
-            let respData: NSData? = getData(self.makeContainerList(self.getInstanceFromPath(resource.path)))
-            completionHandler(error: nil, status: 200, headers: headers, data: respData)
+            completionHandler(error: nil, status: 200, headers: headers, data: self.makeContainerList(self.getInstanceFromPath(resource.path)))
         }else{
             completionHandler(error: nil, status: 200, headers: headers, data: nil)
         }
         
     }
     
+    /*
+     Call to create container
+     Example call:
+     
+    */
     internal override func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPUT called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
@@ -87,15 +98,21 @@ internal class ObjectStoreMock: ClientManager{
             if self.objectStore[instanceId] == nil{
                 self.objectStore[instanceId] = [container]
             }else{
+                //there are already containers in the list, append rather than overwrite
                 var temp = self.objectStore[instanceId]
                 temp?.append(container)
-                self.objectStore[instanceId] = temp
+                self.objectStore[instanceId] = temp //TODO needs to be unwrapped?
             }
             
             completionHandler(error: nil, status: 200, headers: headers, data: nil)
         }
     }
     
+    /*
+     Call to delete a container
+     Example call:
+     
+    */
     internal override func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nDELETE called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         let instanceId = self.getInstanceFromPath(resource.path)
@@ -114,6 +131,11 @@ internal class ObjectStoreMock: ClientManager{
         }
     }
     
+    /*
+     Call to update metadata
+     Example call:
+     
+    */
     internal override func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPOST called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
@@ -122,6 +144,11 @@ internal class ObjectStoreMock: ClientManager{
         completionHandler(error: nil, status: 200, headers: headers, data: nil)
     }
     
+    /*
+     Call to retrieve metadata
+     Example call:
+     
+    */
     internal override func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nHEAD called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
@@ -147,16 +174,17 @@ internal class ObjectStoreMock: ClientManager{
         return "testcontainer"//TODO actual logic to return actual container
     }
     
-    internal func makeContainerList(instance:String)->String{
-        return "testcontainer\n" //TODO actual logic to return actual container list
+    internal func makeContainerList(instance:String)->NSData{
+        var data: String = ""
+        
+        for object in self.objectStore[instance]!{
+            data.appendContentsOf(object)
+            data.appendContentsOf("\n")
+        }
+        return data.dataUsingEncoding(NSUTF8StringEncoding)!
     }
     
     internal func isGetContainerListCall(path:String)->Bool{
         return true //TODO actual logic to return if containerListRequest
     }
-    
-    internal func getData(data: String)->NSData{ //segFaults made me do this
-        return data.dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-    
 }
