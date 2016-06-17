@@ -148,12 +148,37 @@ internal class OSContainerHttpMock: Manager{
         return AuthTokenManager(projectId: projectId, authToken: authToken)
     }
     
+    internal func getInstanceFromPath(path:String)->String{
+        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
+        
+        var index = indexOf(newPath, substring: "/")
+        index = index ?? newPath.characters.count
+        
+        return newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(0)..<newPath.startIndex.advancedBy(index!)))
+        
+    }
+    
     internal func getContainerNameFromPath(path:String)->String{
-        return "testcontainer"//TODO real logic
+        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
+        let index = indexOf(newPath, substring: "/")
+        
+        let tempString = newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(index!+1)..<newPath.startIndex.advancedBy(newPath.characters.count)))
+        var index2 = indexOf(tempString, substring: "/")
+        
+        index2 = index2 ?? tempString.characters.count
+        
+        return tempString.substringWithRange(Range<String.Index>(tempString.startIndex.advancedBy(0)..<tempString.startIndex.advancedBy(index2!)))
     }
     
     internal func getObjectNameFromPath(path:String)->String{
-        return "testojbect.txt"//TODO real logic
+        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
+        let index = indexOf(newPath, substring: "/")
+        
+        let tempString = newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(index!+1)..<newPath.startIndex.advancedBy(newPath.characters.count)))
+        
+        let index2 = indexOf(tempString, substring: "/")
+        
+        return tempString.substringWithRange(Range<String.Index>(tempString.startIndex.advancedBy(index2!+1)..<tempString.startIndex.advancedBy(tempString.characters.count)))
     }
     
     internal func isGetObjectListCall(path:String)->Bool{
@@ -171,5 +196,16 @@ internal class OSContainerHttpMock: Manager{
         }
         
         return data.dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+    
+    func indexOf(source: String, substring: String) -> Int? {
+        let maxIndex = source.characters.count - substring.characters.count
+        for index in 0...maxIndex {
+            let rangeSubstring = source.startIndex.advancedBy(index)..<source.startIndex.advancedBy(index + substring.characters.count)
+            if source.substringWithRange(rangeSubstring) == substring {
+                return index
+            }
+        }
+        return nil
     }
 }
