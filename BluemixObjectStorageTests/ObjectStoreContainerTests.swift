@@ -78,15 +78,6 @@ class ObjectStoreContainerTests: XCTestCase {
             ObjectStoreContainerTests.container!.manager = OSContainerHttpMock()
             expecatation.fulfill()
         }
-        var isCreated = false
-        var numTries = 1
-        while(!isCreated && numTries>4){//TODO still need this?
-            ObjectStoreContainerTests.objStore!.retrieveContainer(name: Consts.containerName, completionHandler:{(error) in
-                isCreated = (error == nil)
-            })
-            numTries += 1
-        }
-        print("After \(numTries), container does exist = \(isCreated)")
         
         waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
