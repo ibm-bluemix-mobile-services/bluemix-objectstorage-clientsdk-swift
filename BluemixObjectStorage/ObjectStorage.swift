@@ -35,7 +35,7 @@ public class ObjectStorage {
     internal var projectId:String! = ""
     internal var projectResource: HttpResource?
     internal var authTokenManager:AuthTokenManager?
-    internal var manager: Manager?
+    internal var httpManager: HttpManager?
     
     /**
      Initialize ObjectStore by supplying projectId
@@ -45,7 +45,7 @@ public class ObjectStorage {
     public init(projectId:String){
         self.projectId = projectId
         logger = Logger(forName:"ObjectStore [\(self.projectId)]")
-        manager = ClientManager()
+        httpManager = HttpClientManager()
     }
     
     /**
@@ -56,7 +56,7 @@ public class ObjectStorage {
      - Parameter region: Defines whether ObjectStore should connect to Dallas or London instance of IBM Object Store. Use *ObjectStore.REGION_DALLAS* and *ObjectStore.REGION_LONDON* as values
      */
     public func connect(userId userId:String, password:String, region:String, completionHandler:(error: ObjectStorageError?) -> Void) {
-        self.authTokenManager = self.manager!.getAuthTokenManager(projectId, userId: userId, password: password)
+        self.authTokenManager = self.httpManager!.getAuthTokenManager(projectId, userId: userId, password: password)
         
         authTokenManager?.refreshAuthToken { (error, authToken) in
             if error != nil {
@@ -79,7 +79,7 @@ public class ObjectStorage {
      - Parameter region: Defines whether ObjectStore should connect to Dallas or London instance of IBM Object Store. Use *ObjectStore.REGION_DALLAS* and *ObjectStore.REGION_LONDON* as values
      */
     public func connect(authToken:String, region:String, completionHandler:(error: ObjectStorageError?) -> Void) {
-        self.authTokenManager = self.manager!.getAuthTokenManager(projectId, authToken: authToken)
+        self.authTokenManager = self.httpManager!.getAuthTokenManager(projectId, authToken: authToken)
         
         self.retrieveContainersList { (error, containers) in
             if let error = error{
@@ -116,7 +116,7 @@ public class ObjectStorage {
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             let resource = self.projectResource?.resourceByAddingPathComponent(pathComponent: Utils.urlPathEncode(text: "/" + name))
             
-            self.manager!.put(resource: resource!, headers: headers, data: nil) { error, status, headers, data in
+            self.httpManager!.put(resource: resource!, headers: headers, data: nil) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error: ObjectStorageError.from(httpError: error), container: nil)
                 } else {
@@ -150,7 +150,7 @@ public class ObjectStorage {
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             let resource = self.projectResource?.resourceByAddingPathComponent(pathComponent: Utils.urlPathEncode(text: "/" + name))
             
-            self.manager!.get(resource: resource!, headers: headers) { error, status, headers, data in
+            self.httpManager!.get(resource: resource!, headers: headers) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error: ObjectStorageError.from(httpError: error), container: nil)
                 } else {
@@ -181,7 +181,7 @@ public class ObjectStorage {
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             
-            self.manager!.get(resource: self.projectResource!, headers: headers) {error, status, headers, data in
+            self.httpManager!.get(resource: self.projectResource!, headers: headers) {error, status, headers, data in
                 if let error = error{
                     completionHandler(error: ObjectStorageError.from(httpError: error), containers: nil)
                 } else {
@@ -227,7 +227,7 @@ public class ObjectStorage {
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             let resource = self.projectResource?.resourceByAddingPathComponent(pathComponent: Utils.urlPathEncode(text: "/" + name))
             
-            self.manager!.delete(resource: resource!, headers: headers) { error, status, headers, data in
+            self.httpManager!.delete(resource: resource!, headers: headers) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error: ObjectStorageError.from(httpError: error))
                 } else {
@@ -258,7 +258,7 @@ public class ObjectStorage {
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken, additionalHeaders: metadata)
-            self.manager!.post(resource: self.projectResource!, headers: headers, data:nil) { error, status, headers, data in
+            self.httpManager!.post(resource: self.projectResource!, headers: headers, data:nil) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error:ObjectStorageError.from(httpError: error))
                 } else {
@@ -288,7 +288,7 @@ public class ObjectStorage {
             }
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             //osHttpManager.head(...)
-            self.manager!.head(resource: self.projectResource!, headers: headers) { error, status, headers, data in
+            self.httpManager!.head(resource: self.projectResource!, headers: headers) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error: ObjectStorageError.from(httpError: error), metadata: nil)
                 } else {

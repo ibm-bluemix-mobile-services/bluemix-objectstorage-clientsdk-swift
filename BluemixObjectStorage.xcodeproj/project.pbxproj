@@ -27,12 +27,12 @@
 		3AF405D61D00CAD6003EF0B4 /* UtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */; };
 		3AF405D91D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405D71D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework */; };
 		3AF405DA1D00EE4A003EF0B4 /* BMSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405D81D00EE4A003EF0B4 /* BMSCore.framework */; };
-		CE1946AF1D1358430099BAC3 /* ObjectStoreMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946AE1D1358430099BAC3 /* ObjectStoreMock.swift */; };
-		CE1946B21D1358930099BAC3 /* ClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B11D1358930099BAC3 /* ClientManager.swift */; };
-		CE1946B41D1358A10099BAC3 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B31D1358A10099BAC3 /* Manager.swift */; };
+		CE1946AF1D1358430099BAC3 /* ObjectStoreHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946AE1D1358430099BAC3 /* ObjectStoreHttpMock.swift */; };
+		CE1946B21D1358930099BAC3 /* HttpClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B11D1358930099BAC3 /* HttpClientManager.swift */; };
+		CE1946B41D1358A10099BAC3 /* HttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B31D1358A10099BAC3 /* HttpManager.swift */; };
 		CE1946B61D1358CC0099BAC3 /* AuthTokenManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */; };
-		CE1946B81D1358F90099BAC3 /* ObjecStoreContainerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */; };
-		CE1946BA1D1456500099BAC3 /* OSObjectHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */; };
+		CE1946B81D1358F90099BAC3 /* OS_ContainerHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B71D1358F90099BAC3 /* OS_ContainerHttpMock.swift */; };
+		CE1946BA1D1456500099BAC3 /* OS_ObjectHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B91D1456500099BAC3 /* OS_ObjectHttpMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,12 +69,12 @@
 		3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsTest.swift; sourceTree = "<group>"; };
 		3AF405D71D00EE4A003EF0B4 /* BMSAnalyticsAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSAnalyticsAPI.framework; path = Carthage/Build/iOS/BMSAnalyticsAPI.framework; sourceTree = "<group>"; };
 		3AF405D81D00EE4A003EF0B4 /* BMSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BMSCore.framework; path = Carthage/Build/iOS/BMSCore.framework; sourceTree = "<group>"; };
-		CE1946AE1D1358430099BAC3 /* ObjectStoreMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreMock.swift; sourceTree = "<group>"; };
-		CE1946B11D1358930099BAC3 /* ClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientManager.swift; sourceTree = "<group>"; };
-		CE1946B31D1358A10099BAC3 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		CE1946AE1D1358430099BAC3 /* ObjectStoreHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreHttpMock.swift; sourceTree = "<group>"; };
+		CE1946B11D1358930099BAC3 /* HttpClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClientManager.swift; sourceTree = "<group>"; };
+		CE1946B31D1358A10099BAC3 /* HttpManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpManager.swift; sourceTree = "<group>"; };
 		CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenManagerMock.swift; sourceTree = "<group>"; };
-		CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjecStoreContainerMock.swift; sourceTree = "<group>"; };
-		CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSObjectHttpMock.swift; sourceTree = "<group>"; };
+		CE1946B71D1358F90099BAC3 /* OS_ContainerHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OS_ContainerHttpMock.swift; sourceTree = "<group>"; };
+		CE1946B91D1456500099BAC3 /* OS_ObjectHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OS_ObjectHttpMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,16 +134,13 @@
 		3AF405871D00C5E4003EF0B4 /* BluemixObjectStorageTests */ = {
 			isa = PBXGroup;
 			children = (
+				CEE43CB01D183D0C0085A832 /* Mocks */,
 				3AF405CD1D00CAD6003EF0B4 /* Consts.swift */,
 				3AF405CE1D00CAD6003EF0B4 /* ObjectStoreContainerTests.swift */,
 				3AF405CF1D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift */,
 				3AF405D01D00CAD6003EF0B4 /* ObjectStoreTest.swift */,
 				3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */,
 				3AF4058A1D00C5E4003EF0B4 /* Info.plist */,
-				CE1946AE1D1358430099BAC3 /* ObjectStoreMock.swift */,
-				CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */,
-				CE1946B71D1358F90099BAC3 /* ObjecStoreContainerMock.swift */,
-				CE1946B91D1456500099BAC3 /* OSObjectHttpMock.swift */,
 			);
 			path = BluemixObjectStorageTests;
 			sourceTree = "<group>";
@@ -183,10 +180,21 @@
 		CE1946B01D1358850099BAC3 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				CE1946B11D1358930099BAC3 /* ClientManager.swift */,
-				CE1946B31D1358A10099BAC3 /* Manager.swift */,
+				CE1946B11D1358930099BAC3 /* HttpClientManager.swift */,
+				CE1946B31D1358A10099BAC3 /* HttpManager.swift */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		CEE43CB01D183D0C0085A832 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				CE1946AE1D1358430099BAC3 /* ObjectStoreHttpMock.swift */,
+				CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */,
+				CE1946B71D1358F90099BAC3 /* OS_ContainerHttpMock.swift */,
+				CE1946B91D1456500099BAC3 /* OS_ObjectHttpMock.swift */,
+			);
+			name = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,9 +331,9 @@
 				3AF405CC1D00CAA1003EF0B4 /* ObjectStorageObject.swift in Sources */,
 				3AF405C91D00CAA1003EF0B4 /* ObjectStorage.swift in Sources */,
 				3AF4059F1D00C6DC003EF0B4 /* HttpResource.swift in Sources */,
-				CE1946B41D1358A10099BAC3 /* Manager.swift in Sources */,
+				CE1946B41D1358A10099BAC3 /* HttpManager.swift in Sources */,
 				3AF4059E1D00C6DC003EF0B4 /* HttpError.swift in Sources */,
-				CE1946B21D1358930099BAC3 /* ClientManager.swift in Sources */,
+				CE1946B21D1358930099BAC3 /* HttpClientManager.swift in Sources */,
 				3AF405C31D00CA4B003EF0B4 /* AuthorizationRequestBody.swift in Sources */,
 				3AF405981D00C6C7003EF0B4 /* AuthTokenManager.swift in Sources */,
 				3AF405C11D00CA19003EF0B4 /* SimpleLogger.swift in Sources */,
@@ -336,13 +344,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE1946AF1D1358430099BAC3 /* ObjectStoreMock.swift in Sources */,
+				CE1946AF1D1358430099BAC3 /* ObjectStoreHttpMock.swift in Sources */,
 				3AF405D61D00CAD6003EF0B4 /* UtilsTest.swift in Sources */,
 				3AF405D41D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift in Sources */,
 				3AF405D51D00CAD6003EF0B4 /* ObjectStoreTest.swift in Sources */,
 				3AF405D31D00CAD6003EF0B4 /* ObjectStoreContainerTests.swift in Sources */,
-				CE1946BA1D1456500099BAC3 /* OSObjectHttpMock.swift in Sources */,
-				CE1946B81D1358F90099BAC3 /* ObjecStoreContainerMock.swift in Sources */,
+				CE1946BA1D1456500099BAC3 /* OS_ObjectHttpMock.swift in Sources */,
+				CE1946B81D1358F90099BAC3 /* OS_ContainerHttpMock.swift in Sources */,
 				CE1946B61D1358CC0099BAC3 /* AuthTokenManagerMock.swift in Sources */,
 				3AF405D21D00CAD6003EF0B4 /* Consts.swift in Sources */,
 			);

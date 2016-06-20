@@ -1,8 +1,8 @@
 //
-//  OSContainerHttpMock.swift
+//  OSObjectHttpMock.swift
 //  BluemixObjectStorage
 //
-//  Created by Conan Gammel on 6/16/16.
+//  Created by Conan Gammel on 6/17/16.
 //  Copyright © 2016 IBM. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 
 @testable import BluemixObjectStorage
 
-internal class OSContainerHttpMock: Manager{
+internal class OSObjectHttpMock: HttpManager{
     
     //keys=container names values are the objects "stored" in each container
     internal var objectStoreContainers = [String:[String]]()
@@ -31,96 +31,49 @@ internal class OSContainerHttpMock: Manager{
     static let port = "443"
     static let pathPrefix = "/v1"
     
-    //maps container to a list of objects
-    internal var containers = [String:[String]]()
-    internal var objData = [String: NSData]()
-    internal var containerMetadataValue:String?
     
-
+    internal var name:String?
+    internal var data:NSData?
+    internal var metadataValue:String?
+    
+    
     /*
-     Call to retrieve object or object list
-     Example call to retrieve object:
-        Headers: ["X-Auth-Token": "mockToken"]
+     Call to load object data
+     Example call:
+        Headers: ["X-Auth-Token": "mockToken"])
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
-     
-     Example call to retrieve a list of objects in the container:
-        Headers: ["X-Auth-Token": "mockToken"]
-        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
-     
     */
     internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nGET called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
-        
-        let containerName = getContainerNameFromPath(resource.path)
-        
-        if self.isGetObjectListCall(resource.path){
-            completionHandler(error: nil, status: 200, headers: headers, data: makeListOfObjects(containerName))
-        }else{
-            let objectName = getObjectNameFromPath(resource.path)
-            completionHandler(error: nil, status: 200, headers: headers, data: self.objData[objectName])
-        }
+        print("\nGET called in OS_Object. Headers: \(headers). Resource: \(resource)\n")
+        completionHandler(error: nil, status: 200, headers: headers,data:self.data)
     }
     
     /*
-     Called to store an object
-     Example PUT call:
-        Headers: ["X-Auth-Token": "mockToken"]
-        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
-        Data: Optional(<74657374 64617461>)
+     Does not get called
      */
     internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nPUT called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
-        
-        let containerName = getContainerNameFromPath(resource.path)
-        let objectName = getObjectNameFromPath(resource.path)
-        
-        if containers[containerName]==nil {
-            containers[containerName] = [objectName]
-        }else{
-            var objectList = containers[containerName]
-            objectList?.append(objectName)
-            containers[containerName] = objectList//TODO needs to be unwrapped?
-        }
-        objData[objectName] = data
-        completionHandler(error: nil, status: 201, headers: headers, data: nil)
+        print("\nPUT called in OS_Object. Headers: \(headers). Resource: \(resource)\n")
+        completionHandler(error: nil, status: 200, headers: headers,data:nil)
     }
     
     /*
-     Call to delete Object
-     Example call:
-        Headers: ["X-Auth-Token": "mockToken"]
-        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
+     Does not get called
      */
     internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nDELETE called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
-        
-        let containerName = getContainerNameFromPath(resource.path)
-        let objectName = getObjectNameFromPath(resource.path)
-        
-        if let objectList = self.containers[containerName]{
-            if objectList.contains(objectName){
-                let updatedObjList = objectList.filter{$0 != objectName}
-                self.containers[containerName] = updatedObjList
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)
-            }else{
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make error that object does not exist
-            }
-        }else{
-            completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make errir that there are no objects in this container
-        }
+        print("\nDELETE called in OS_Object. Headers: \(headers). Resource: \(resource)\n")
+        completionHandler(error: nil, status: 200, headers: headers,data:nil)
     }
     
     /*
      Call to update metadata
      Example call:
-        Headers: ["X-Container-Meta-Test": "testvalue", "X-Auth-Token": "mockToken"]
-        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
-        Data: nil
+        Headers: ["X-Object-Meta-Test": "testvalue", "X-Auth-Token": "mockToken"])
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
      */
     internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nPOST called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
+        print("\nPOST called in OS_Object. Headers: \(headers). Resource: \(resource)\n")
         
-        self.containerMetadataValue = headers![OSContainerHttpMock.containerMetadataTestName]
+        self.metadataValue = headers![OSObjectHttpMock.objectMetadataTestName]
         
         completionHandler(error: nil, status: 200, headers: headers, data: nil)
     }
@@ -129,13 +82,13 @@ internal class OSContainerHttpMock: Manager{
      Call to retrieve metadata
      Example call:
         Headers: ["X-Auth-Token": "mockToken"]
-        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
+        Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
      */
     internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nHEAD called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
+        print("\nHEAD called in OS_Object. Headers: \(headers). Resource: \(resource)\n")
         
         var newHeaders = headers!
-        newHeaders[OSContainerHttpMock.containerMetadataTestName] = self.containerMetadataValue
+        newHeaders[OSObjectHttpMock.objectMetadataTestName] = self.metadataValue
         
         completionHandler(error: nil, status: 200, headers: newHeaders, data: nil)
     }
@@ -179,23 +132,6 @@ internal class OSContainerHttpMock: Manager{
         let index2 = indexOf(tempString, substring: "/")
         
         return tempString.substringWithRange(Range<String.Index>(tempString.startIndex.advancedBy(index2!+1)..<tempString.startIndex.advancedBy(tempString.characters.count)))
-    }
-    
-    internal func isGetObjectListCall(path:String)->Bool{
-        let containerName = getContainerNameFromPath(path)
-        return !path.containsString("\(containerName)/")
-    }
-    
-    internal func makeListOfObjects(container:String)->NSData{
-        var data:String = ""
-        
-        
-        for object in self.containers[container]! {
-            data.appendContentsOf(object)
-            data.appendContentsOf("\n")
-        }
-        
-        return data.dataUsingEncoding(NSUTF8StringEncoding)!
     }
     
     func indexOf(source: String, substring: String) -> Int? {

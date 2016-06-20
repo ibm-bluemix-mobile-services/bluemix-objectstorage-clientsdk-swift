@@ -12,6 +12,7 @@ import Foundation
 
 internal class AuthTokenMock: AuthTokenManager{
     
+    //return a mock token
     override func refreshAuthToken(completionHandler:(error: ObjectStorageError?, authToken: String?) -> Void) {
         self.authToken = "mockToken"
         completionHandler(error: nil, authToken: self.authToken)

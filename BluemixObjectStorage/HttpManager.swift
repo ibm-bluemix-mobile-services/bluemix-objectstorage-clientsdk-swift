@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal protocol Manager{
+internal protocol HttpManager{
     
     /**
      Send a GET request

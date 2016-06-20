@@ -22,12 +22,20 @@ class ObjectStoreTests: XCTestCase {
     
     static var objStore: ObjectStorage?
     static var container: ObjectStorageContainer?
-    static var mockManager: Manager = ObjectStoreMock()
+    static var mockManager: HttpManager = ObjectStoreHttpMock()
     
     
+    /*
+     BeforeClass setup: runs once before any of the tests
+     Sets up the mocks - creates an ObjectStorage, then injects a mock
+     HttpManager (so that the http calls go through a mock and not to bluemix)
+     */
     override class func setUp() {
         self.objStore = ObjectStorage(projectId: Consts.projectId)
-        self.objStore!.manager = ObjectStoreTests.mockManager
+        
+        if !Consts.isIntegrationTest{
+            self.objStore!.httpManager = ObjectStoreTests.mockManager
+        }
         self.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler:{(error) in
             if error != nil{
                 print("Error \"connecting\" before ObjectStoreTests class")
@@ -42,7 +50,6 @@ class ObjectStoreTests: XCTestCase {
     
     func test1_ObjectStore(){
         let expecatation = expectationWithDescription("doneExpectation")
-        
         
         XCTAssertNotNil(ObjectStoreTests.objStore, "Failed to initialize ObjectStore")
         XCTAssertEqual(ObjectStoreTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")

@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal class ClientManager: Manager{
+internal class HttpClientManager: HttpManager{
     
     internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         HttpClient.get(resource:resource, headers: headers, completionHandler: completionHandler)

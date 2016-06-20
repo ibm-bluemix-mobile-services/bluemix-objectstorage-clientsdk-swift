@@ -21,14 +21,23 @@ import Foundation
 class ObjectStoreContainerTests: XCTestCase {
     static var objStore: ObjectStorage?
     static var container: ObjectStorageContainer?
-    static var mockManager: Manager = ObjectStoreMock()//TODO: OBJECT STORE HTTP MANAGER MOCK
+    static var mockManager: HttpManager = ObjectStoreHttpMock()
     
     
+    /*
+     BeforeClass setup: runs once before any of the tests
+     Sets up the mocks - creates an ObjectStorage, then injects a mock 
+        HttpManager (so that the http calls go through a mock and not to bluemix)
+    */
     override class func setUp() {
         self.objStore = ObjectStorage(projectId: Consts.projectId)
-        self.objStore!.manager = ObjectStoreTests.mockManager
+        
+        if !Consts.isIntegrationTest{
+            self.objStore!.httpManager = ObjectStoreTests.mockManager
+        }
         self.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler:{(error) in
             if error != nil{
+                //validates that our mock is working, otherwise the ObjectStorage might be talking to bluemix and actually get a connection error
                 print("Error \"connecting\" before ObjectStoreTests class")
             }else{
                 print("Set up mocks for test")
@@ -43,12 +52,9 @@ class ObjectStoreContainerTests: XCTestCase {
     func test1_ObjectStoreContainer(){
         
         let expecatation = expectationWithDescription("doneExpectation")
-        
-        
-        
+ 
         XCTAssertNotNil(ObjectStoreContainerTests.objStore, "Failed to initialize ObjectStore")
         XCTAssertEqual(ObjectStoreContainerTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
-        
         
         ObjectStoreContainerTests.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
             XCTAssertNil(error, "error != nil")
@@ -59,6 +65,7 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertNil(error, "Test timeout")
         }
         ObjectStoreContainerTests.objStore!.deleteContainer(name: Consts.containerName, completionHandler:{ (error) in
+            //do not fail test, this is for integration tests with bluemix, to delete any leftover containers before the other tests
             print("Error Deleting Container in test1_ObjectStoreContainer: \(error)")})
     }
     
@@ -67,7 +74,6 @@ class ObjectStoreContainerTests: XCTestCase {
         
         let expecatation = expectationWithDescription("doneExpectation")
         
-        
         ObjectStoreContainerTests.objStore!.createContainer(name: Consts.containerName) {(error, container) in
             XCTAssertNil(error, "error != nil")
             XCTAssertNotNil(container, "container == nil")
@@ -75,7 +81,9 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertNotNil(container?.objectStore, "container.objectStore == nil")
             XCTAssertNotNil(container?.resource, "container.resource == nil")
             ObjectStoreContainerTests.container = container
-            ObjectStoreContainerTests.container!.manager = OSContainerHttpMock()
+            if !Consts.isIntegrationTest{
+                ObjectStoreContainerTests.container!.httpManager = OSContainerHttpMock() //inject the container mock
+            }
             expecatation.fulfill()
         }
         

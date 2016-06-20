@@ -9,7 +9,7 @@
 import Foundation
 @testable import BluemixObjectStorage
 
-internal class ObjectStoreMock: ClientManager{
+internal class ObjectStoreHttpMock: HttpManager{
     
     //headers
     static let accountMetadataTestName = "X-Account-Meta-Test"
@@ -32,11 +32,11 @@ internal class ObjectStoreMock: ClientManager{
     /*
      {
      <projectID>:{
-     <container>:[
-     <object>,
-     <object>,
-     <object>
-     ],
+        <container>:[
+                <object>,
+                <object>,
+                <object>
+                    ],
      <container>:[
      <object>,
      <object>,
@@ -59,11 +59,8 @@ internal class ObjectStoreMock: ClientManager{
      */
     //object store mock: strings (ids) map to an array of strings (containers) that each map to OSContainerHttpMock's list of containers with "objects" in an array
     internal var objectStore = [String:[String]]()
-    internal var accoutMetaDataValue:String?
     
-    internal func getStarted(){
-        
-    }
+    internal var accoutMetaDataValue:String?
     
     /*
      Call to get a container, or a list of containers
@@ -76,7 +73,7 @@ internal class ObjectStoreMock: ClientManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
      
      */
-    internal override func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nGET called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
         if self.isGetContainerListCall(resource.path){
@@ -94,10 +91,10 @@ internal class ObjectStoreMock: ClientManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
         Data: nil
     */
-    internal override func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPUT called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
-        if let token = headers![ObjectStoreMock.authHeader] where token==ObjectStoreMock.authToken{
+        if let token = headers![ObjectStoreHttpMock.authHeader] where token==ObjectStoreHttpMock.authToken{
             let instanceId = self.getInstanceFromPath(resource.path)
             let container = self.getContainerFromPath(resource.path)
             
@@ -120,7 +117,7 @@ internal class ObjectStoreMock: ClientManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
     */
-    internal override func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nDELETE called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         let instanceId = self.getInstanceFromPath(resource.path)
         let container = self.getContainerFromPath(resource.path)
@@ -145,10 +142,10 @@ internal class ObjectStoreMock: ClientManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
         Data: nil
     */
-    internal override func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPOST called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
-        self.accoutMetaDataValue = headers![ObjectStoreMock.accountMetadataTestName]
+        self.accoutMetaDataValue = headers![ObjectStoreHttpMock.accountMetadataTestName]
         
         completionHandler(error: nil, status: 200, headers: headers, data: nil)
     }
@@ -159,23 +156,26 @@ internal class ObjectStoreMock: ClientManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
     */
-    internal override func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nHEAD called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
         var newHeaders = headers!
-        newHeaders[ObjectStoreMock.accountMetadataTestName] = self.accoutMetaDataValue
+        newHeaders[ObjectStoreHttpMock.accountMetadataTestName] = self.accoutMetaDataValue
         
         completionHandler(error: nil, status: 200, headers: newHeaders, data: nil)
     }
     
-    internal override func getAuthTokenManager(projectId: String, userId: String, password: String)->AuthTokenManager{
+    //return a mock AuthTokenManager so that when ObjectStorage calls 'refreshToken' we return a mock token without making an external call
+    internal func getAuthTokenManager(projectId: String, userId: String, password: String)->AuthTokenManager{
         return AuthTokenMock(projectId: projectId, userId: userId, password: password)
     }
     
-    internal override func getAuthTokenManager(projectId: String, authToken: String)->AuthTokenManager{
+    //return a mock AuthTokenManager so that when ObjectStorage calls 'refreshToken' we return a mock token without making an external call
+    internal func getAuthTokenManager(projectId: String, authToken: String)->AuthTokenManager{
         return AuthTokenMock(projectId: projectId, authToken: authToken)
     }
     
+    //helper function to extract the instance id from the path string
     internal func getInstanceFromPath(path:String)->String{
         let pathWithPrefixandAuthRemoved = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
         
@@ -186,6 +186,7 @@ internal class ObjectStoreMock: ClientManager{
 
     }
     
+    //helper function to extract the container name from the path string
     internal func getContainerFromPath(path:String)->String{
         let pathWithPrefixandAuthRemoved = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
         let index = indexOf(pathWithPrefixandAuthRemoved, substring: "/")
@@ -193,6 +194,7 @@ internal class ObjectStoreMock: ClientManager{
         return pathWithPrefixandAuthRemoved.substringWithRange(Range<String.Index>(pathWithPrefixandAuthRemoved.startIndex.advancedBy(index!+1)..<pathWithPrefixandAuthRemoved.startIndex.advancedBy(pathWithPrefixandAuthRemoved.characters.count)))
     }
     
+    //helper function to create a list of containers in the format that the callee expects
     internal func makeContainerList(instance:String)->NSData{
         var data: String = ""
         
@@ -203,11 +205,13 @@ internal class ObjectStoreMock: ClientManager{
         return data.dataUsingEncoding(NSUTF8StringEncoding)!
     }
     
+    //determines if the GET request is asking for a container or a list of available containers
     internal func isGetContainerListCall(path:String)->Bool{
         let instanceID = getInstanceFromPath(path)
         return !path.containsString("\(instanceID)/")
     }
     
+    //helper function to return the first index of a substring within a string
     func indexOf(source: String, substring: String) -> Int? {
         let maxIndex = source.characters.count - substring.characters.count
         for index in 0...maxIndex {

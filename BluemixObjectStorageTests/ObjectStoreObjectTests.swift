@@ -24,12 +24,20 @@ class ObjectStoreObjectTests: XCTestCase {
     static var objStore: ObjectStorage?
     static var container: ObjectStorageContainer?
     static var object: ObjectStorageObject?
-    static var mockManager: Manager = ObjectStoreMock()//TODO: OBJECT STORE HTTP MANAGER MOCK
+    static var mockManager: HttpManager = ObjectStoreHttpMock()
     
     
+    /*
+     BeforeClass setup: runs once before any of the tests
+     Sets up the mocks - creates an ObjectStorage, then injects a mock
+     HttpManager (so that the http calls go through a mock and not to bluemix)
+     */
     override class func setUp() {
         self.objStore = ObjectStorage(projectId: Consts.projectId)
-        self.objStore!.manager = ObjectStoreObjectTests.mockManager
+        
+        if !Consts.isIntegrationTest{
+            self.objStore!.httpManager = ObjectStoreTests.mockManager
+        }
         self.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler:{(error) in
             if error != nil{
                 print("Error \"connecting\" before ObjectStoreTests class")
@@ -70,7 +78,9 @@ class ObjectStoreObjectTests: XCTestCase {
             XCTAssertNotNil(container?.objectStore, "container.objectStore == nil")
             XCTAssertNotNil(container?.resource, "container.resource == nil")
             ObjectStoreObjectTests.container = container
-            ObjectStoreObjectTests.container!.manager = OSContainerHttpMock()
+            if !Consts.isIntegrationTest{
+                ObjectStoreObjectTests.container!.httpManager = OSContainerHttpMock() //inject the container mock
+            }
             expecatation.fulfill()
         }
         
@@ -93,9 +103,11 @@ class ObjectStoreObjectTests: XCTestCase {
             XCTAssertNotNil(object?.resource, "object.resource == nil")
             XCTAssertEqual(object?.data, bigData, "object.data != Consts.bigObjectData")
             ObjectStoreObjectTests.object = object
-            let mang = OSObjectHttpMock()
-            mang.data = object?.data
-            ObjectStoreObjectTests.object!.manager = mang
+            if !Consts.isIntegrationTest{
+                let mang = OSObjectHttpMock()
+                mang.data = object?.data
+                ObjectStoreObjectTests.object!.httpManager = mang
+            }
             expecatation.fulfill()
         }
         

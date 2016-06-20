@@ -31,7 +31,7 @@ public class ObjectStorageObject{
     private let logger:Logger
     
     //HTTP Manager
-    internal var manager:Manager
+    internal var httpManager:HttpManager
     
     /**
      Retrieved object NSData
@@ -44,7 +44,7 @@ public class ObjectStorageObject{
         self.resource = resource
         self.container = container
         self.data = data
-        self.manager = ClientManager()
+        self.httpManager = HttpClientManager()
     }
     
     /**
@@ -61,7 +61,7 @@ public class ObjectStorageObject{
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
-            self.manager.get(resource: self.resource, headers: headers) { error, status, headers, data in
+            self.httpManager.get(resource: self.resource, headers: headers) { error, status, headers, data in
                 if let error = error{
                     completionHandler(error: ObjectStorageError.from(httpError: error), data: nil)
                 } else {
@@ -94,7 +94,7 @@ public class ObjectStorageObject{
             
             let headers = Utils.createHeaderDictionary(authToken: authToken, additionalHeaders: metadata)
             
-            self.manager.post(resource: self.resource, headers: headers, data: nil) { error, status, headers, data in
+            self.httpManager.post(resource: self.resource, headers: headers, data: nil) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error:ObjectStorageError.from(httpError: error))
                 } else {
@@ -119,7 +119,7 @@ public class ObjectStorageObject{
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
-            self.manager.head(resource: self.resource, headers: headers) { error, status, headers, data in
+            self.httpManager.head(resource: self.resource, headers: headers) { error, status, headers, data in
                 if let error = error {
                     completionHandler(error: ObjectStorageError.from(httpError: error), metadata: nil)
                 } else {
