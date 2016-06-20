@@ -11,15 +11,14 @@
  *     limitations under the License.
  */
 
-
 #import <UIKit/UIKit.h>
 
-//! Project version number for BluemixObjectStorageClientSDK_IOS.
-FOUNDATION_EXPORT double BluemixObjectStorageClientSDK_IOSVersionNumber;
+//! Project version number for BluemixObjectStorage.
+FOUNDATION_EXPORT double BluemixObjectStorageVersionNumber;
 
-//! Project version string for BluemixObjectStorageClientSDK_IOS.
-FOUNDATION_EXPORT const unsigned char BluemixObjectStorageClientSDK_IOSVersionString[];
+//! Project version string for BluemixObjectStorage.
+FOUNDATION_EXPORT const unsigned char BluemixObjectStorageVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <BluemixObjectStorageClientSDK_IOS/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <BluemixObjectStorage/PublicHeader.h>
 
 

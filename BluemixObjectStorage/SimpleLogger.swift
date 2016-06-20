@@ -13,34 +13,41 @@
 
 import Foundation
 
+/// Internal logging infrastructure
 public class Logger{
 
-	public let name:String
+	internal let name:String
 
+	/// Set this property to true of false to control internal logging output
 	public static let enabled:Bool = true
+	
+	/// Set this property to true or false to control internal logging output for DEBUG level only
+	public static let debugLogsEnabled:Bool = true
 
 	private static let LEVEL_INF = "INF"
 	private static let LEVEL_ERR = "ERR"
 	private static let LEVEL_DBG = "DBG"
 	private static let LEVEL_WRN = "WRN"
 
-	public init(forName:String){
+	internal init(forName:String){
 		self.name = forName
 	}
 
-	public func info(text:String){
+	internal func info(text:String){
 		printLog(text, level: Logger.LEVEL_INF)
 	}
 
-	public func debug(text:String){
-		printLog(text, level: Logger.LEVEL_DBG)
+	internal func debug(text:String){
+		if Logger.debugLogsEnabled {
+			printLog(text, level: Logger.LEVEL_DBG)
+		}
 	}
 
-	public func warn(text:String){
+	internal func warn(text:String){
 		printLog(text, level: Logger.LEVEL_WRN)
 	}
 
-	public func error(text:String){
+	internal func error(text:String){
 		printLog(text, level: Logger.LEVEL_ERR)
 	}
 

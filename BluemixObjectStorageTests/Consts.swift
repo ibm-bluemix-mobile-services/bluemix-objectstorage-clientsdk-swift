@@ -13,15 +13,19 @@
 
 import Foundation
 #if os(iOS)
-	@testable import BluemixObjectStorageClientSDK_IOS
+@testable import BluemixObjectStorage
 #else
 #endif
 
 struct Consts{
-	static let projectId = ""
-	static let userId = ""
-	static let password = ""
+    //these credentials are for stage1.ng.bluemix ObjjectStore named "SwiftSDK_ObjectStore_DONOTDELETE
+    //they are for integration tests only
+	static let projectId = "09a0eea3fdcd4095aff2600f7a73e2d9"
+	static let userId = "8d261e25c5bb4a6783c7cde133f8f1dd"
+	static let password = "V7]W!i!065jjThaw"
 	static let region = ObjectStorage.REGION_DALLAS
+    
+    static let isIntegrationTest: Bool = false
 
 	static let containerName = "testcontainer"
 	static let objectName = "testobject.txt"

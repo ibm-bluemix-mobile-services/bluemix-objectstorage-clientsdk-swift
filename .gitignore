@@ -34,3 +34,6 @@ Carthage
 #
 Pods/
 Packages/
+PodFile
+*.xcworkspace
+PodFile.lock
