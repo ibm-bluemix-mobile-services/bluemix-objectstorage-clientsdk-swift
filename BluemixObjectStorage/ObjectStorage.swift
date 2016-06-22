@@ -81,6 +81,11 @@ public class ObjectStorage {
     public func connect(authToken:String, region:String, completionHandler:(error: ObjectStorageError?) -> Void) {
         self.authTokenManager = self.httpManager!.getAuthTokenManager(projectId, authToken: authToken)
         
+        //if first time calling this method, the project resource could be nil, then would fail when retrieveContainer is called
+        self.projectResource = (region == ObjectStorage.REGION_DALLAS) ?
+            ObjectStorage.DALLAS_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId) :
+            ObjectStorage.LONDON_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId)
+        
         self.retrieveContainersList { (error, containers) in
             if let error = error{
                 self.authTokenManager = nil
