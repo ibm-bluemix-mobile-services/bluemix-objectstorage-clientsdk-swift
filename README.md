@@ -8,13 +8,34 @@
 
 ## Installation
 
-Use Cocoapods to install BluemixObjectStorage SDK
+### Cocoapods
 
-```
+To install BluemixObjectStorage using Cocoapods, add it to your Podfile:
+
+```ruby
+use_frameworks!
+
 target 'MyApp' do
   pod 'BluemixObjectStorage', '~> 0.0'
 end
 ```
+
+Then run the `pod install` command.
+
+
+### Carthage
+
+To install BluemixObjectStorage using Carthage, add it to your Cartfile: 
+
+```ogdl
+github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift" ~> 0.0
+```
+
+Then run the `carthage update` command. Once the build is finished, drag `BluemixObjectStorage.framework`, `BMSCore.framework`, and `BMSAnalyticsAPI.framework` into your Xcode project. 
+
+To complete the integration, follow the instructions [here](https://github.com/Carthage/Carthage#getting-started).
+
+
 
 ## Usage
 

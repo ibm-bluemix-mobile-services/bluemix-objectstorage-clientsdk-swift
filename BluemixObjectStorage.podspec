@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   #s.module_map = 'Source/Resources/module.modulemap'
 
-  s.dependency 'BMSCore', '~> 1.0.2'
+  s.dependency 'BMSCore', '~> 1.0.3'
 
   s.requires_arc = true
 
