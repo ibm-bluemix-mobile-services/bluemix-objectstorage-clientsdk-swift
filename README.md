@@ -1,55 +1,96 @@
-# BluemixObjectStorage SDK
+<img src="https://bluemixassets.eu-gb.mybluemix.net/api/Products/image/logos/object-storage.svg?key=[bluemix-objectstorage-clientsdk-swift]&event=readme-image-view" alt="[BluemixObjectStorageSDK]" width="200px"/>
 
-[![Swift](https://img.shields.io/badge/Swift-2.2-orange.svg)](https://swift.org)
+## Object Storage
+Bluemix Client SDK for Object Storage in Swift
 
+[![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift)
-[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.svg?branch=development)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift)
+ [![Platform](https://img.shields.io/cocoapods/p/BluemixObjectStorage.svg?style=flat)](http://cocoadocs.org/docsets/BluemixObjectStorage)
 
+### Table of Contents
+* [Summary](#summary)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Example Usage](#example-usage)
+* [License](#license)
 
-## Installation
+### Summary
+Object Storage provides an unstructured cloud data store to build and deliver cloud applications and services with lowered cost, reliability, and speed to market. Bluemix developers and users can access and store unstructured data content and can interactively compose and connect to applications and services. The Object Storage service also provides programmatic access via API, SDKs and a consumable UI for object management.
 
-### Cocoapods
+You can use this client SDK to store and retrieve binary data on your Object Storage service instance on Bluemix from your iOS application.
 
-To install BluemixObjectStorage using Cocoapods, add it to your Podfile:
+Read the [official documentation](https://new-console.ng.bluemix.net/docs/services/ObjectStorage/index.html) for information about getting started with Object Storage.
 
+[//]: # (Link to the Getting Started docs)
+[//]: # (Replace [Service] with your Service name)
+
+### Requirements
+* iOS 8.0+
+* Xcode 7+
+
+### Installation
+The Bluemix Mobile services Swift SDKs are available via [Cocoapods](https://cocoapods.org/pods/BluemixObjectStorage)
+
+##### Cocoapods
+To install Object Storage using Cocoapods, add it to your `Podfile`:
 ```ruby
 use_frameworks!
 
 target 'MyApp' do
-  pod 'BluemixObjectStorage', '~> 0.0'
+    pod 'BluemixObjectStorage', '~> 0.0'
 end
 ```
-
 Then run the `pod install` command.
 
 
-### Carthage
+### Example Usage
+[//]: # (You are going to want to put common scenarios for the examples here to avoid looking through the docs for non-complex usage)
 
-To install BluemixObjectStorage using Carthage, add it to your Cartfile: 
+* [Account metadata](#account-metadata)
+* [Connecting to Object Storage](#connecting-to-object-storage)
+* [Managing containers](#managing-containers)
+* [Managing objects](#managing-objects)
+* [Types of errors](#types-of-errors)
 
-```ogdl
-github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift" ~> 0.0
-```
+> View the complete API reference [here]().
+[//]: # (link to JavaDoc, Jazzy for Swift, etc.)
 
-Then run the `carthage update` command. Once the build is finished, drag `BluemixObjectStorage.framework`, `BMSCore.framework`, and `BMSAnalyticsAPI.framework` into your Xcode project. 
+---
 
-To complete the integration, follow the instructions [here](https://github.com/Carthage/Carthage#getting-started).
+#### Account metadata
 
-
-
-## Usage
-
-Import the BluemixObjectStorage framework
+##### Update account metadata
 
 ```swift
-import BluemixObjectStorage
+let metadata:Dictionary<String, String> = ["X-Account-Meta-SomeName":"SomeValue"]
+objstorage.updateMetadata(metadata: metadata) { (error) in
+	if let error = error {
+		print("updateMetadata error :: \(error)")
+	} else {
+		print("updateMetadata success")
+	}
+}
 ```
 
-### Objectstorage
+##### Retrieve account metadata
 
-Use `ObjectStorage` instance to connect to IBM Object Storage service and manage containers.
+```swift
+objstorage.retrieveMetadata { (error, metadata) in
+	if let error = error {
+		print("retrieveMetadata error :: \(error)")
+	} else {
+		print("retrieveMetadata success :: \(metadata)")
+	}
+}
+```
+> [View examples](#example-usage)
 
-#### Connect to the IBM Object Storage service using userId and password
+---
+
+#### Connecting to Object Storage
+Use `ObjectStorage` instance to connect to IBM Object Storage service.
+
+##### Connect to the IBM Object Storage service using userId and password
 
 ```swift
 let objstorage = ObjectStorage(projectId:"your-project-id")
@@ -64,7 +105,7 @@ objstorage.connect(	userId: "your-service-userId",
 }
 ```
 
-#### Connect to the IBM Object Storage service using explicit authToken
+##### Connect to the IBM Object Storage service using explicit authToken
 
 ```swift
 let objstorage = ObjectStorage(projectId:"your-project-id")
@@ -77,8 +118,14 @@ objstorage.connect(	authToken: "your-auth-token",
 	}							
 }
 ```
+> [View examples](#example-usage)
 
-#### Create a new container
+---
+
+#### Managing containers
+Use ObjectStorage instance to manage containers.
+
+##### Create a new container
 
 ```swift
 objstorage.createContainer(name: "container-name") { (error, container) in
@@ -90,7 +137,7 @@ objstorage.createContainer(name: "container-name") { (error, container) in
 }
 ```
 
-#### Retrieve an existing container
+##### Retrieve an existing container
 
 ```swift
 objstorage.retrieveContainer(name: "container-name") { (error, container) in
@@ -102,7 +149,7 @@ objstorage.retrieveContainer(name: "container-name") { (error, container) in
 }
 ```
 
-#### Retrieve a list of existing containers
+##### Retrieve a list of existing containers
 
 ```swift
 objstorage.retrieveContainersList { (error, containers) in
@@ -114,7 +161,7 @@ objstorage.retrieveContainersList { (error, containers) in
 }
 ```
 
-#### Delete an existing container
+##### Delete an existing container
 
 ```swift
 objstorage.deleteContainer(name: "container-name") { (error) in
@@ -125,12 +172,26 @@ objstorage.deleteContainer(name: "container-name") { (error) in
 	}
 }
 ```
+You can also use `ObjectStorageContainer` instance to manage containers
 
-#### Update account metadata
+
+##### Delete the container
 
 ```swift
-let metadata:Dictionary<String, String> = ["X-Account-Meta-SomeName":"SomeValue"]
-objstorage.updateMetadata(metadata: metadata) { (error) in
+container.delete { (error) in
+	if let error = error {
+		print("deleteContainer error :: \(error)")
+	} else {
+		print("deleteContainer success")
+	}
+}
+```
+
+##### Update container metadata
+
+```swift
+let metadata:Dictionary<String, String> = ["X-Container-Meta-SomeName":"SomeValue"]
+container.updateMetadata(metadata: metadata) { (error) in
 	if let error = error {
 		print("updateMetadata error :: \(error)")
 	} else {
@@ -139,10 +200,10 @@ objstorage.updateMetadata(metadata: metadata) { (error) in
 }
 ```
 
-#### Retrieve account metadata
+##### Retrieve container metadata
 
 ```swift
-objstorage.retrieveMetadata { (error, metadata) in
+container.retrieveMetadata { (error, metadata) in
 	if let error = error {
 		print("retrieveMetadata error :: \(error)")
 	} else {
@@ -151,11 +212,15 @@ objstorage.retrieveMetadata { (error, metadata) in
 }
 ```
 
-### ObjectStorageContainer
+> [View examples](#example-usage)
+
+---
+
+#### Managing Objects
 
 Use `ObjectStorageContainer` instance to manage objects inside of particular container
 
-#### Create a new object or update an existing one
+##### Create a new object or update an existing one
 
 ```swift
 #if os(Linux)
@@ -173,7 +238,7 @@ container.storeObject(name: "object-name", data: data) { (error, object) in
 }
 ```
 
-#### Retrieve an existing object
+##### Retrieve an existing object
 
 ```swift
 container.retrieveObject(name: "object-name") { (error, object) in
@@ -185,7 +250,7 @@ container.retrieveObject(name: "object-name") { (error, object) in
 }
 ```
 
-#### Retrieve a list of existing objects
+##### Retrieve a list of existing objects
 
 ```swift
 container.retrieveObjectsList { (error, objects) in
@@ -197,7 +262,7 @@ container.retrieveObjectsList { (error, objects) in
 }
 ```
 
-#### Delete an existing object
+##### Delete an existing object
 
 ```swift
 container.deleteObject(name: "object-name") { (error) in
@@ -209,48 +274,9 @@ container.deleteObject(name: "object-name") { (error) in
 }
 ```
 
-#### Delete the container
-
-```swift
-container.delete { (error) in
-	if let error = error {
-		print("deleteContainer error :: \(error)")
-	} else {
-		print("deleteContainer success")
-	}
-}
-```
-
-#### Update container metadata
-
-```swift
-let metadata:Dictionary<String, String> = ["X-Container-Meta-SomeName":"SomeValue"]
-container.updateMetadata(metadata: metadata) { (error) in
-	if let error = error {
-		print("updateMetadata error :: \(error)")
-	} else {
-		print("updateMetadata success")
-	}
-}
-```
-
-#### Retrieve container metadata
-
-```swift
-container.retrieveMetadata { (error, metadata) in
-	if let error = error {
-		print("retrieveMetadata error :: \(error)")
-	} else {
-		print("retrieveMetadata success :: \(metadata)")
-	}
-}
-```
-
-### ObjectStorageObject
-
 Use `ObjectStorageObject` instance to load object content on demand
 
-#### Load the object content
+##### Load the object content
 
 ```swift
 object.load(shouldCache: false) { (error, data) in
@@ -262,19 +288,7 @@ object.load(shouldCache: false) { (error, data) in
 }
 ```
 
-#### Delete the object
-
-```swift
-object.delete { (error) in
-	if let error = error {
-		print("deleteObject error :: \(error)")
-	} else {
-		print("deleteObject success")
-	}
-}
-```
-
-#### Update object metadata
+##### Update object metadata
 
 ```swift
 let metadata:Dictionary<String, String> = ["X-Object-Meta-SomeName":"SomeValue"]
@@ -287,7 +301,7 @@ object.updateMetadata(metadata: metadata) { (error) in
 }
 ```
 
-#### Retrieve object metadata
+##### Retrieve object metadata
 
 ```swift
 object.retrieveMetadata { (error, metadata) in
@@ -298,8 +312,13 @@ object.retrieveMetadata { (error, metadata) in
 	}
 }
 ```
+> [View examples](#example-usage)
 
-### ObjectStorageError
+---
+
+#### Types of errors
+
+#### ObjectStorageError
 
 The `ObjectStorageError` is an enum with possible failure reasons
 
@@ -316,20 +335,6 @@ enum ObjectStorageError: ErrorType {
 }
 ```
 
-## License
 
-Copyright 2016 IBM Corp.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-
+### License
+This package contains code licensed under the Apache License, Version 2.0 (the "License"). You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 and may also view the License in the LICENSE file within this package.
