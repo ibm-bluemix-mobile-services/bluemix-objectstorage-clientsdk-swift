@@ -55,7 +55,7 @@ Then run the `pod install` command.
 > View the complete API reference [here]().
 [//]: # (link to JavaDoc, Jazzy for Swift, etc.)
 
----
+--
 
 #### Account metadata
 
@@ -85,7 +85,7 @@ objstorage.retrieveMetadata { (error, metadata) in
 ```
 > [View examples](#example-usage)
 
----
+--
 
 #### Connecting to Object Storage
 Use `ObjectStorage` instance to connect to IBM Object Storage service.
@@ -120,7 +120,7 @@ objstorage.connect(	authToken: "your-auth-token",
 ```
 > [View examples](#example-usage)
 
----
+--
 
 #### Managing containers
 Use ObjectStorage instance to manage containers.
@@ -214,7 +214,7 @@ container.retrieveMetadata { (error, metadata) in
 
 > [View examples](#example-usage)
 
----
+--
 
 #### Managing Objects
 
@@ -314,7 +314,7 @@ object.retrieveMetadata { (error, metadata) in
 ```
 > [View examples](#example-usage)
 
----
+--
 
 #### Types of errors
 
