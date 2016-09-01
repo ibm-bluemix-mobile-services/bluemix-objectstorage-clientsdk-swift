@@ -42,6 +42,15 @@ end
 ```
 Then run the `pod install` command.
 
+<!--##### Carthage-->
+<!--To install Bluemix Object Storage SDK using Carthage, add the following line to your Cartfile-->
+<!--```ogdl-->
+<!--github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientdsk-swift"-->
+<!--```-->
+
+<!--Then run the `carthage update` command. Once the build is finished, drag `BluemixObjectStorage.framework` into your Xcode project. -->
+
+<!--To complete the integration, follow the instructions [here](https://github.com/Carthage/Carthage#getting-started).-->
 
 ### Example Usage
 [//]: # (You are going to want to put common scenarios for the examples here to avoid looking through the docs for non-complex usage)
