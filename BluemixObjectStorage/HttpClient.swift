@@ -138,9 +138,9 @@ private extension HttpClient{
         }
         
         if let data = data {
-            request.sendData(data, completionHandler: networkRequestCompletionHandler)
+            request.send(requestBody: data, completionHandler: networkRequestCompletionHandler)
         } else {
-            request.sendWithCompletionHandler(networkRequestCompletionHandler)
+            request.send(completionHandler: networkRequestCompletionHandler)
         }
     }
 }
