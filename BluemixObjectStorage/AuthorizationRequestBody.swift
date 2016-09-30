@@ -14,7 +14,7 @@
 import Foundation
 
 internal class AuthorizationRequestBody {
-	private var body:String
+	fileprivate var body:String
 //	private let dict:Dictionary<String, AnyObject>
 
 	init(userId:String, password:String, projectId:String){
@@ -41,7 +41,7 @@ internal class AuthorizationRequestBody {
 //			]
 	}
 
-	func data() -> NSData {
-		return body.dataUsingEncoding(NSUTF8StringEncoding)!
+	func data() -> Data {
+		return body.data(using: String.Encoding.utf8)!
 	}
 }

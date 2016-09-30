@@ -12,30 +12,28 @@
 */
 
 import Foundation
-#if swift(>=3)
-import SimpleLogger
-import SimpleHttpClient
-#endif
+
+
 
 internal class AuthTokenManager {
-	private static let TOKEN_ENDPOINT = "https://identity.open.softlayer.com/v3/auth/tokens"
-	private static let TOKEN_RESOURCE = HttpResource(schema: "https", host: "identity.open.softlayer.com", port: "443", path: "/v3/auth/tokens")
-	private static let X_SUBJECT_TOKEN = "X-Subject-Token"
-	private let logger = Logger.init(forName: "AuthTokenManager")
+	fileprivate static let TOKEN_ENDPOINT = "https://identity.open.softlayer.com/v3/auth/tokens"
+	fileprivate static let TOKEN_RESOURCE = HttpResource(schema: "https", host: "identity.open.softlayer.com", port: "443", path: "/v3/auth/tokens")
+	fileprivate static let X_SUBJECT_TOKEN = "X-Subject-Token"
+	fileprivate let logger = Logger.init(forName: "AuthTokenManager")
 	
-	private static let TOKEN_REFRESH_THRESHOLD = -120.0;
+	fileprivate static let TOKEN_REFRESH_THRESHOLD = -120.0;
 	
 	var userId: String?
 	var password: String?
 	var projectId: String
 	var authToken: String?
-	var expiresAt: NSDate?
+	var expiresAt: Date?
 	
 	init(projectId: String, userId: String, password: String){
 		self.projectId = projectId
 		self.userId = userId
 		self.password = password
-		self.expiresAt = NSDate()
+		self.expiresAt = Date()
 	}
 	
 	init(projectId: String, authToken: String){
@@ -44,21 +42,21 @@ internal class AuthTokenManager {
 		self.userId = nil
 		self.password = nil
 		self.authToken = authToken
-		self.expiresAt = NSDate().dateByAddingTimeInterval(86400) // 24 hours
+		self.expiresAt = Date().addingTimeInterval(86400) // 24 hours
 	}
 	 
-	func refreshAuthToken(completionHandler:(error: ObjectStorageError?, authToken: String?) -> Void) {
+	func refreshAuthToken(_ completionHandler:@escaping (ObjectStorageError?, String?) -> Void) {
 		// Check whether authToken exists and it is still valid
-		let now = NSDate()
-		let bestBefore = self.expiresAt?.dateByAddingTimeInterval(AuthTokenManager.TOKEN_REFRESH_THRESHOLD)
-		if let authToken = authToken, let bestBefore = bestBefore where bestBefore.isGreaterThanDate(now) {
-			return completionHandler(error: nil, authToken: authToken)
+		let now = Date()
+		let bestBefore = self.expiresAt?.addingTimeInterval(AuthTokenManager.TOKEN_REFRESH_THRESHOLD)
+		if let authToken = authToken, let bestBefore = bestBefore , bestBefore.isGreaterThanDate(now) {
+			return completionHandler(nil, authToken)
 		}
 
 		// userId and password are mandatory to be able to automatically refresh authToken
 		guard userId != nil && password != nil else {
-			logger.error(String(ObjectStorageError.CannotRefreshAuthToken))
-			return completionHandler(error: ObjectStorageError.CannotRefreshAuthToken, authToken: nil)
+			logger.error(String(describing: ObjectStorageError.cannotRefreshAuthToken))
+			return completionHandler(ObjectStorageError.cannotRefreshAuthToken, nil)
 		}
 		
 		logger.info("Obtaining new authToken")
@@ -68,26 +66,26 @@ internal class AuthTokenManager {
 		
 		HttpClient.post(resource: AuthTokenManager.TOKEN_RESOURCE, headers: headers, data: authRequestData) { error, status, headers, data in
 			if let error = error {
-				completionHandler(error: ObjectStorageError.from(httpError: error), authToken: nil)
+				completionHandler(ObjectStorageError.from(httpError: error), nil)
 			} else {
 				self.logger.debug("authToken Retrieved")
 				self.authToken = headers![AuthTokenManager.X_SUBJECT_TOKEN]
 				
-				let responseJson = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-				let expiresAt = responseJson["token"]?["expires_at"] as! String
-				let dateFormatter = NSDateFormatter()
+                let responseJson = (try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String: Any]
+                let expiresAt = (responseJson["token"] as! [String: Any])["expires_at"] as! String
+				let dateFormatter = DateFormatter()
 				dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-				dateFormatter.timeZone = NSTimeZone(name: "UTC")
-				self.expiresAt = dateFormatter.dateFromString(expiresAt)
+				dateFormatter.timeZone = TimeZone(identifier: "UTC")
+				self.expiresAt = dateFormatter.date(from: expiresAt)
 				
-				completionHandler(error: nil, authToken: self.authToken)
+				completionHandler(nil, self.authToken)
 			}
 		}
 	}
 }
 
-internal extension NSDate {
-	func isGreaterThanDate(dateToCompare: NSDate) -> Bool {
-		return self.compare(dateToCompare) == NSComparisonResult.OrderedDescending
+internal extension Date {
+	func isGreaterThanDate(_ dateToCompare: Date) -> Bool {
+		return self.compare(dateToCompare) == ComparisonResult.orderedDescending
 	}
 }

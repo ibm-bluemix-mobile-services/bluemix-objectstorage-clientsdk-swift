@@ -14,44 +14,44 @@
 import Foundation
 
 /// Internal logging infrastructure
-public class Logger{
+open class Logger{
 
 	internal let name:String
 
 	/// Set this property to true of false to control internal logging output
-	public static let enabled:Bool = true
+	open static let enabled:Bool = true
 	
 	/// Set this property to true or false to control internal logging output for DEBUG level only
-	public static let debugLogsEnabled:Bool = true
+	open static let debugLogsEnabled:Bool = true
 
-	private static let LEVEL_INF = "INF"
-	private static let LEVEL_ERR = "ERR"
-	private static let LEVEL_DBG = "DBG"
-	private static let LEVEL_WRN = "WRN"
+	fileprivate static let LEVEL_INF = "INF"
+	fileprivate static let LEVEL_ERR = "ERR"
+	fileprivate static let LEVEL_DBG = "DBG"
+	fileprivate static let LEVEL_WRN = "WRN"
 
 	internal init(forName:String){
 		self.name = forName
 	}
 
-	internal func info(text:String){
+	internal func info(_ text:String){
 		printLog(text, level: Logger.LEVEL_INF)
 	}
 
-	internal func debug(text:String){
+	internal func debug(_ text:String){
 		if Logger.debugLogsEnabled {
 			printLog(text, level: Logger.LEVEL_DBG)
 		}
 	}
 
-	internal func warn(text:String){
+	internal func warn(_ text:String){
 		printLog(text, level: Logger.LEVEL_WRN)
 	}
 
-	internal func error(text:String){
+	internal func error(_ text:String){
 		printLog(text, level: Logger.LEVEL_ERR)
 	}
 
-	private func printLog(text:String, level:String){
+	fileprivate func printLog(_ text:String, level:String){
 		if (Logger.enabled){
 			print("[\(level)] [\(self.name)] \(text)")
 		}

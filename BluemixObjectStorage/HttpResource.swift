@@ -53,7 +53,7 @@ internal struct HttpResource{
 	
 	- Parameter pathComponent: components to add
 	*/
-	internal func resourceByAddingPathComponent(pathComponent pathComponent:String) -> HttpResource {
+	internal func resourceByAddingPathComponent(pathComponent:String) -> HttpResource {
 		return HttpResource(schema: self.schema, host: self.host, port: self.port, path: self.path + pathComponent)
 	}
 }

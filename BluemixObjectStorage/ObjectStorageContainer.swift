@@ -12,22 +12,20 @@
 */
 
 import Foundation
-#if swift(>=3)
-    import SimpleLogger
-    import SimpleHttpClient
-#endif
+
+
 
 /// ObjectStorageContainer instance represents a single container on IBM Object Store service
-public class ObjectStorageContainer{
+open class ObjectStorageContainer{
     
     /// Container name
-    public let name:String
+    open let name:String
     
     /// Container resource
     internal let resource:HttpResource
     
     internal let objectStore:ObjectStorage
-    private let logger:Logger
+    fileprivate let logger:Logger
     internal var httpManager:HttpManager
     
     internal init(name:String, resource: HttpResource, objectStore:ObjectStorage){
@@ -44,12 +42,12 @@ public class ObjectStorageContainer{
      - Parameter name: The name of the object to be stored
      - Parameter data: The object content
      */
-    public func storeObject(name name:String, data:NSData, completionHandler: (error: ObjectStorageError?, object: ObjectStorageObject?)->Void){
+    open func storeObject(name:String, data:Data, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
         logger.info("Storing object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             guard error == nil else {
-                return completionHandler(error: error, object: nil)
+                return completionHandler(error, nil)
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
@@ -57,11 +55,11 @@ public class ObjectStorageContainer{
             
             self.httpManager.put(resource: resource, headers: headers, data: data) { error, status, headers, responseData in
                 if let error = error{
-                    completionHandler(error: ObjectStorageError.from(httpError: error), object: nil)
+                    completionHandler(ObjectStorageError.from(httpError: error), nil)
                 } else {
                     self.logger.info("Stored object [\(name)]")
                     let object = ObjectStorageObject(name: name, resource: resource, container: self, data: data)
-                    completionHandler(error: nil, object: object)
+                    completionHandler(nil, object)
                 }
             }
         })
@@ -73,12 +71,12 @@ public class ObjectStorageContainer{
      
      - Parameter name: The name of the object to be retrieved
      */
-    public func retrieveObject(name name:String, completionHandler: (error: ObjectStorageError?, object: ObjectStorageObject?)->Void){
+    open func retrieveObject(name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
         logger.info("Retrieving object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             guard error == nil else {
-                return completionHandler(error: error, object: nil)
+                return completionHandler(error, nil)
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
@@ -86,11 +84,11 @@ public class ObjectStorageContainer{
             
             self.httpManager.get(resource: resource, headers: headers) { error, status, headers, data in
                 if let error = error{
-                    completionHandler(error: ObjectStorageError.from(httpError: error), object: nil)
+                    completionHandler(ObjectStorageError.from(httpError: error), nil)
                 } else {
                     self.logger.info("Retrieved object [\(name)]")
                     let object = ObjectStorageObject(name: name, resource: resource, container: self, data: data)
-                    completionHandler(error: nil, object: object)
+                    completionHandler(nil, object)
                 }
             }
         })
@@ -101,25 +99,25 @@ public class ObjectStorageContainer{
      Retrieve a list of existing objects
      
      */
-    public func retrieveObjectsList(completionHandler completionHandler: (error: ObjectStorageError?, objects: [ObjectStorageObject]?)->Void){
+    open func retrieveObjectsList(completionHandler: @escaping (ObjectStorageError?, [ObjectStorageObject]?)->Void){
         logger.info("Retrieving objects list")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             
             guard error == nil else {
-                return completionHandler(error: error, objects: nil)
+                return completionHandler(error, nil)
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             self.httpManager.get(resource: self.resource, headers: headers) { error, status, headers, data in
                 if let error = error{
-                    completionHandler(error: ObjectStorageError.from(httpError: error), objects: nil)
+                    completionHandler(ObjectStorageError.from(httpError: error), nil)
                 }else {
                     self.logger.info("Retrieved objects list")
                     var objectsList = [ObjectStorageObject]()
-                    let responseBodyString = String(data: data!, encoding: NSUTF8StringEncoding)!
+                    let responseBodyString = String(data: data!, encoding: String.Encoding.utf8)!
                     
-                    let objectNames = responseBodyString.componentsSeparatedByString("\n")
+                    let objectNames = responseBodyString.components(separatedBy: "\n")
                     
                     for objectName:String in objectNames{
                         if objectName.characters.count == 0 {
@@ -129,7 +127,7 @@ public class ObjectStorageContainer{
                         let object = ObjectStorageObject(name: objectName, resource: objectResource, container: self)
                         objectsList.append(object)
                     }
-                    completionHandler(error: nil, objects: objectsList)
+                    completionHandler(nil, objectsList)
                 }
                 
             }
@@ -141,12 +139,12 @@ public class ObjectStorageContainer{
      
      - Parameter name: The name of the object to be deleted
      */
-    public func deleteObject(name name: String, completionHandler: (error:ObjectStorageError?) -> Void){
+    open func deleteObject(name: String, completionHandler: @escaping (ObjectStorageError?) -> Void){
         logger.info("Deleting object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             guard error == nil else {
-                return completionHandler(error: error)
+                return completionHandler(error)
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
@@ -154,10 +152,10 @@ public class ObjectStorageContainer{
             
             self.httpManager.delete(resource: resource, headers: headers) { error, status, headers, data in
                 if let error = error {
-                    completionHandler(error: ObjectStorageError.from(httpError: error))
+                    completionHandler(ObjectStorageError.from(httpError: error))
                 } else {
                     self.logger.info("Deleted object [\(name)]")
-                    completionHandler(error: nil)
+                    completionHandler(nil)
                 }
             }
         })
@@ -167,7 +165,7 @@ public class ObjectStorageContainer{
      Delete the container
      
      */
-    public func delete(completionHandler completionHandler:(error: ObjectStorageError?)->Void){
+    open func delete(completionHandler:@escaping (ObjectStorageError?)->Void){
         self.objectStore.deleteContainer(name: self.name, completionHandler: completionHandler)
     }
     
@@ -176,21 +174,21 @@ public class ObjectStorageContainer{
      
      - Parameter metadata: a dictionary of metadata items, e.g. ["X-Container-Meta-Subject":"AmericanHistory"]. It is possible to supply multiple metadata items within same invocation. To delete a particular metadata item set it's value to an empty string, e.g. ["X-Container-Meta-Subject":""]. See Object Storage API v1 for more information about possible metadata items - http://developer.openstack.org/api-ref-objectstorage-v1.html
      */
-    public func updateMetadata(metadata metadata:Dictionary<String, String>, completionHandler: (error: ObjectStorageError?)->Void){
+    open func updateMetadata(metadata:Dictionary<String, String>, completionHandler: @escaping (ObjectStorageError?)->Void){
         logger.info("Updating metadata :: \(metadata)")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             guard error == nil else {
-                return completionHandler(error: error)
+                return completionHandler(error)
             }
             let headers = Utils.createHeaderDictionary(authToken: authToken, additionalHeaders: metadata)
             
             self.httpManager.post(resource: self.resource, headers: headers, data: nil) { error, status, headers, data in
                 if let error = error {
-                    completionHandler(error:ObjectStorageError.from(httpError: error))
+                    completionHandler(ObjectStorageError.from(httpError: error))
                 } else {
                     self.logger.info("Metadata updated :: \(metadata)")
-                    completionHandler(error:nil)
+                    completionHandler(nil)
                 }
             }
         })
@@ -200,20 +198,20 @@ public class ObjectStorageContainer{
      Retrieve container metadata. The metadata will be returned to a completionHandler as a Dictionary<String, String> instance with set of keys and values
      
      */
-    public func retrieveMetadata(completionHandler completionHandler: (error: ObjectStorageError?, metadata: [String:String]?) -> Void) {
+    open func retrieveMetadata(completionHandler: @escaping (ObjectStorageError?, [String:String]?) -> Void) {
         logger.info("Retrieving metadata")
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
             guard error == nil else {
-                return completionHandler(error: error, metadata: nil)
+                return completionHandler(error, nil)
             }
             
             let headers = Utils.createHeaderDictionary(authToken: authToken)
             self.httpManager.head(resource: self.resource, headers: headers) { error, status, headers, data in
                 if let error = error {
-                    completionHandler(error: ObjectStorageError.from(httpError: error), metadata: nil)
+                    completionHandler(ObjectStorageError.from(httpError: error), nil)
                 } else {
                     self.logger.info("Metadata retrieved :: \(headers)")
-                    completionHandler(error: nil, metadata: headers);
+                    completionHandler(nil, headers);
                 }
             }
         })

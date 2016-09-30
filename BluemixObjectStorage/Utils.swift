@@ -17,11 +17,11 @@ internal class Utils{
 	
 	internal static let X_AUTH_TOKEN = "X-Auth-Token"
 	
-	static func urlPathEncode(text text:String) -> String {
-		return text.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet()) as String!
+	static func urlPathEncode(text:String) -> String {
+		return text.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) as String!
 	}
 
-	static func createHeaderDictionary(authToken authToken:String?, additionalHeaders:[String:String]? = nil) -> [String:String]{
+	static func createHeaderDictionary(authToken:String?, additionalHeaders:[String:String]? = nil) -> [String:String]{
 		var headers:Dictionary<String, String> = [:]
 		if let authToken = authToken {
 			headers.updateValue(authToken, forKey: X_AUTH_TOKEN)

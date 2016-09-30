@@ -21,7 +21,7 @@ internal protocol HttpManager{
      - Parameter headers: Dictionary of Http headers to add to request
      - Parameter completionHandler: NetworkRequestCompletionHandler instance
      */
-    func get(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler)
+    func get(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler)
     
     /**
      Send a PUT request
@@ -30,7 +30,7 @@ internal protocol HttpManager{
      - Parameter data: The data to send in request body
      - Parameter completionHandler: NetworkRequestCompletionHandler instance
      */
-    func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler)
+    func put(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler)
     
     /**
      Send a DELETE request
@@ -38,7 +38,7 @@ internal protocol HttpManager{
      - Parameter headers: Dictionary of Http headers to add to request
      - Parameter completionHandler: NetworkRequestCompletionHandler instance
      */
-    func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler)
+    func delete(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler)
     
     /**
      Send a POST request
@@ -47,7 +47,7 @@ internal protocol HttpManager{
      - Parameter data: The data to send in request body
      - Parameter completionHandler: NetworkRequestCompletionHandler instance
      */
-    func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler)
+    func post(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler)
     
     /**
      Send a HEAD request
@@ -55,7 +55,7 @@ internal protocol HttpManager{
      - Parameter headers: Dictionary of Http headers to add to request
      - Parameter completionHandler: NetworkRequestCompletionHandler instance
      */
-    func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler)
+    func head(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler)
     
     func getAuthTokenManager(projectId: String, userId: String, password: String)->AuthTokenManager
     
