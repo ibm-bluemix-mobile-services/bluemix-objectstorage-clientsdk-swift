@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		271B35F17050D6B86F63B329 /* Pods_BluemixObjectStorageTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF196C2EE788E49A8DC46C24 /* Pods_BluemixObjectStorageTests.framework */; };
 		3AF4057D1D00C5E4003EF0B4 /* BluemixObjectStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AF4057C1D00C5E4003EF0B4 /* BluemixObjectStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3AF405841D00C5E4003EF0B4 /* BluemixObjectStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF405791D00C5E4003EF0B4 /* BluemixObjectStorage.framework */; };
 		3AF405981D00C6C7003EF0B4 /* AuthTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405971D00C6C7003EF0B4 /* AuthTokenManager.swift */; };
@@ -25,6 +26,7 @@
 		3AF405D41D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405CF1D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift */; };
 		3AF405D51D00CAD6003EF0B4 /* ObjectStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405D01D00CAD6003EF0B4 /* ObjectStoreTest.swift */; };
 		3AF405D61D00CAD6003EF0B4 /* UtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */; };
+		BBC1122C9F644C5AD915F617 /* Pods_BluemixObjectStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11D571AC8EA828CE24AC3ABB /* Pods_BluemixObjectStorage.framework */; };
 		CE1946AF1D1358430099BAC3 /* ObjectStoreHttpMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946AE1D1358430099BAC3 /* ObjectStoreHttpMock.swift */; };
 		CE1946B21D1358930099BAC3 /* HttpClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B11D1358930099BAC3 /* HttpClientManager.swift */; };
 		CE1946B41D1358A10099BAC3 /* HttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1946B31D1358A10099BAC3 /* HttpManager.swift */; };
@@ -44,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11D571AC8EA828CE24AC3ABB /* Pods_BluemixObjectStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BluemixObjectStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF405791D00C5E4003EF0B4 /* BluemixObjectStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BluemixObjectStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF4057C1D00C5E4003EF0B4 /* BluemixObjectStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluemixObjectStorage.h; sourceTree = "<group>"; };
 		3AF4057E1D00C5E4003EF0B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,12 +68,17 @@
 		3AF405CF1D00CAD6003EF0B4 /* ObjectStoreObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreObjectTests.swift; sourceTree = "<group>"; };
 		3AF405D01D00CAD6003EF0B4 /* ObjectStoreTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreTest.swift; sourceTree = "<group>"; };
 		3AF405D11D00CAD6003EF0B4 /* UtilsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsTest.swift; sourceTree = "<group>"; };
+		8AF720FFA07DC9930A482383 /* Pods-BluemixObjectStorage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluemixObjectStorage.release.xcconfig"; path = "Pods/Target Support Files/Pods-BluemixObjectStorage/Pods-BluemixObjectStorage.release.xcconfig"; sourceTree = "<group>"; };
+		9E79AF7CF0393973C6F5330B /* Pods-BluemixObjectStorageTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluemixObjectStorageTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BluemixObjectStorageTests/Pods-BluemixObjectStorageTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B92514721B2E3F509A249960 /* Pods-BluemixObjectStorage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluemixObjectStorage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BluemixObjectStorage/Pods-BluemixObjectStorage.debug.xcconfig"; sourceTree = "<group>"; };
 		CE1946AE1D1358430099BAC3 /* ObjectStoreHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectStoreHttpMock.swift; sourceTree = "<group>"; };
 		CE1946B11D1358930099BAC3 /* HttpClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClientManager.swift; sourceTree = "<group>"; };
 		CE1946B31D1358A10099BAC3 /* HttpManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpManager.swift; sourceTree = "<group>"; };
 		CE1946B51D1358CC0099BAC3 /* AuthTokenManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenManagerMock.swift; sourceTree = "<group>"; };
 		CE1946B71D1358F90099BAC3 /* OS_ContainerHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OS_ContainerHttpMock.swift; sourceTree = "<group>"; };
 		CE1946B91D1456500099BAC3 /* OS_ObjectHttpMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OS_ObjectHttpMock.swift; sourceTree = "<group>"; };
+		CF196C2EE788E49A8DC46C24 /* Pods_BluemixObjectStorageTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BluemixObjectStorageTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAA807468643BFAD25E74BA1 /* Pods-BluemixObjectStorageTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BluemixObjectStorageTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BluemixObjectStorageTests/Pods-BluemixObjectStorageTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC1122C9F644C5AD915F617 /* Pods_BluemixObjectStorage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,18 +95,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AF405841D00C5E4003EF0B4 /* BluemixObjectStorage.framework in Frameworks */,
+				271B35F17050D6B86F63B329 /* Pods_BluemixObjectStorageTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		396D0BF883C1FE19F7A99EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				11D571AC8EA828CE24AC3ABB /* Pods_BluemixObjectStorage.framework */,
+				CF196C2EE788E49A8DC46C24 /* Pods_BluemixObjectStorageTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3AF4056F1D00C5E4003EF0B4 = {
 			isa = PBXGroup;
 			children = (
 				3AF4057B1D00C5E4003EF0B4 /* BluemixObjectStorage */,
 				3AF405871D00C5E4003EF0B4 /* BluemixObjectStorageTests */,
 				3AF4057A1D00C5E4003EF0B4 /* Products */,
+				DA7C34CB4A2939E813222F68 /* Pods */,
+				396D0BF883C1FE19F7A99EE5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,6 +210,17 @@
 			name = Mocks;
 			sourceTree = "<group>";
 		};
+		DA7C34CB4A2939E813222F68 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B92514721B2E3F509A249960 /* Pods-BluemixObjectStorage.debug.xcconfig */,
+				8AF720FFA07DC9930A482383 /* Pods-BluemixObjectStorage.release.xcconfig */,
+				9E79AF7CF0393973C6F5330B /* Pods-BluemixObjectStorageTests.debug.xcconfig */,
+				DAA807468643BFAD25E74BA1 /* Pods-BluemixObjectStorageTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -207,11 +239,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AF4058D1D00C5E4003EF0B4 /* Build configuration list for PBXNativeTarget "BluemixObjectStorage" */;
 			buildPhases = (
+				97A7932E9CD4B573BC0A77FC /* [CP] Check Pods Manifest.lock */,
 				3AF405741D00C5E4003EF0B4 /* Sources */,
 				3AF405751D00C5E4003EF0B4 /* Frameworks */,
 				3AF405761D00C5E4003EF0B4 /* Headers */,
 				3AF405771D00C5E4003EF0B4 /* Resources */,
 				CE1CCDB11D109F3E00F934A9 /* ShellScript */,
+				229E6EC9B5ABE4163A857F58 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,9 +260,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AF405901D00C5E4003EF0B4 /* Build configuration list for PBXNativeTarget "BluemixObjectStorageTests" */;
 			buildPhases = (
+				76A583E11FD4C03CDA5B5A08 /* [CP] Check Pods Manifest.lock */,
 				3AF4057F1D00C5E4003EF0B4 /* Sources */,
 				3AF405801D00C5E4003EF0B4 /* Frameworks */,
 				3AF405811D00C5E4003EF0B4 /* Resources */,
+				8D2579C68C179480CF9ACE5A /* [CP] Embed Pods Frameworks */,
+				BF458049409AA44709007D91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,7 +284,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = IBM;
 				TargetAttributes = {
 					3AF405781D00C5E4003EF0B4 = {
@@ -296,6 +333,81 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		229E6EC9B5ABE4163A857F58 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BluemixObjectStorage/Pods-BluemixObjectStorage-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		76A583E11FD4C03CDA5B5A08 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8D2579C68C179480CF9ACE5A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BluemixObjectStorageTests/Pods-BluemixObjectStorageTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97A7932E9CD4B573BC0A77FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BF458049409AA44709007D91 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BluemixObjectStorageTests/Pods-BluemixObjectStorageTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CE1CCDB11D109F3E00F934A9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,8 +487,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -424,8 +538,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -445,6 +561,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -454,8 +571,10 @@
 		};
 		3AF4058E1D00C5E4003EF0B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B92514721B2E3F509A249960 /* Pods-BluemixObjectStorage.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -478,8 +597,10 @@
 		};
 		3AF4058F1D00C5E4003EF0B4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AF720FFA07DC9930A482383 /* Pods-BluemixObjectStorage.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -501,7 +622,9 @@
 		};
 		3AF405911D00C5E4003EF0B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E79AF7CF0393973C6F5330B /* Pods-BluemixObjectStorageTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BluemixObjectStorageTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.BluemixObjectStorageTests;
@@ -512,7 +635,9 @@
 		};
 		3AF405921D00C5E4003EF0B4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAA807468643BFAD25E74BA1 /* Pods-BluemixObjectStorageTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BluemixObjectStorageTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.BluemixObjectStorageTests;
