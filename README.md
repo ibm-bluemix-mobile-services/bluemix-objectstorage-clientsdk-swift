@@ -29,28 +29,33 @@ Read the [official documentation](https://new-console.ng.bluemix.net/docs/servic
 * Xcode 7+
 
 ### Installation
-The Bluemix Mobile services Swift SDKs are available via [Cocoapods](https://cocoapods.org/pods/BluemixObjectStorage)
 
-##### Cocoapods
-To install Object Storage using Cocoapods, add it to your `Podfile`:
+The Bluemix Mobile Services Swift SDKs are available via [Cocoapods](http://cocoapods.org/) and [Carthage](https://github.com/Carthage/Carthage).
+
+### Cocoapods
+To install BluemixObjectStorage using Cocoapods, add it to your Podfile:
+
 ```ruby
 use_frameworks!
 
 target 'MyApp' do
-    pod 'BluemixObjectStorage', '~> 0.0'
+    pod 'BluemixObjectStorage'
 end
 ```
-Then run the `pod install` command.
 
-<!--##### Carthage-->
-<!--To install Bluemix Object Storage SDK using Carthage, add the following line to your Cartfile-->
-<!--```ogdl-->
-<!--github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientdsk-swift"-->
-<!--```-->
+Make sure you have Cocoapods version [1.1.0.rc.2](https://github.com/CocoaPods/CocoaPods/releases) (or later) installed. Then run the `pod install` command. To update to a newer release of BluemixObjectStorage, use `pod update BluemixObjectStorage`.
 
-<!--Then run the `carthage update` command. Once the build is finished, drag `BluemixObjectStorage.framework` into your Xcode project. -->
+#### Carthage
 
-<!--To complete the integration, follow the instructions [here](https://github.com/Carthage/Carthage#getting-started).-->
+To install BMSAnalytics with Carthage, follow the instructions [here](https://github.com/Carthage/Carthage#getting-started).
+
+Add this line to your Cartfile: 
+
+```ogdl
+github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientdsk-swift"
+```
+
+Then run the `carthage update` command. Once the build is finished, add `BluemixObjectStorage.framework`, `BMSCore.framework` and `BMSAnalyticsAPI.framework` to your project. 
 
 ### Example Usage
 [//]: # (You are going to want to put common scenarios for the examples here to avoid looking through the docs for non-complex usage)
