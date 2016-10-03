@@ -55,7 +55,7 @@ class ObjectStoreContainerTests: XCTestCase {
     
     func test1_ObjectStoreContainer(){
         
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
  
         XCTAssertNotNil(ObjectStoreContainerTests.objStore, "Failed to initialize ObjectStore")
         XCTAssertEqual(ObjectStoreContainerTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
@@ -65,7 +65,7 @@ class ObjectStoreContainerTests: XCTestCase {
             expecatation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
         ObjectStoreContainerTests.objStore!.deleteContainer(name: Consts.containerName, completionHandler:{ (error) in
@@ -76,7 +76,7 @@ class ObjectStoreContainerTests: XCTestCase {
     func test2_CreateContainer(){
         XCTAssertNotNil(ObjectStoreContainerTests.objStore, "objStore == nil")
         
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.objStore!.createContainer(name: Consts.containerName) {(error, container) in
             XCTAssertNil(error, "Error creating container: \(error)")
@@ -92,7 +92,7 @@ class ObjectStoreContainerTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
@@ -100,7 +100,7 @@ class ObjectStoreContainerTests: XCTestCase {
     func test3_UpdateMetadata(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
         
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         let metadata:Dictionary<String, String> = [Consts.containerMetadataTestName:Consts.metadataTestValue]
         
@@ -109,7 +109,7 @@ class ObjectStoreContainerTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
@@ -117,7 +117,7 @@ class ObjectStoreContainerTests: XCTestCase {
     func test4_RetrieveMetadata(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
         
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.container!.retrieveMetadata { (error, metadata) in
             XCTAssertNil(error, "Error retrieving container metadata: \(error)")
@@ -125,15 +125,15 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertEqual(metadata![Consts.containerMetadataTestName], Consts.metadataTestValue, "metadataTestValue != \(Consts.metadataTestValue)")
             expecatation.fulfill()
         }
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test5_StoreObject(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
-        let expecatation = expectationWithDescription("doneExpectation")
-        ObjectStoreContainerTests.container!.storeObject(name: Consts.objectName, data: Consts.objectData) { (error, object) in
+        let expecatation = expectation(description: "doneExpectation")
+        ObjectStoreContainerTests.container!.storeObject(name: Consts.objectName, data: Consts.objectData!) { (error, object) in
             XCTAssertNil(error, "Error storing object: \(error)")
             XCTAssertNotNil(object, "object == nil")
             XCTAssertEqual(object?.name, Consts.objectName, "object.name != \(Consts.objectName)")
@@ -142,14 +142,14 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertEqual(object?.data, Consts.objectData, "object.data != \(Consts.objectData)")
             expecatation.fulfill()
         }
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test6_RetrieveObject(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.container!.retrieveObject(name: Consts.objectName) { (error, object) in
             XCTAssertNil(error, "Error retrieving object: \(error)")
@@ -160,7 +160,7 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertEqual(object?.data, Consts.objectData, "object.data != \(Consts.objectData)")
             expecatation.fulfill()
         }
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
         
@@ -168,7 +168,7 @@ class ObjectStoreContainerTests: XCTestCase {
     
     func test7_RetrieveObjectList(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.container!.retrieveObjectsList { (error, objects) in
             XCTAssertNil(error, "Error retrieving object list: \(error)")
@@ -180,34 +180,34 @@ class ObjectStoreContainerTests: XCTestCase {
             XCTAssertNotNil(object.resource, "object.resource == nil")
             expecatation.fulfill()
         }
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test8_DeleteObject(){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.container!.deleteObject(name: Consts.objectName) { (error) in
             XCTAssertNil(error, "Error deleting object: \(error)")
             expecatation.fulfill()
         }
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test9_DeleteContainer(container: ObjectStorageContainer){
         XCTAssertNotNil(ObjectStoreContainerTests.container, "container == nil")
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreContainerTests.container!.delete { (error) in
             XCTAssertNil(error, "Error deleting container: \(error)")
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }

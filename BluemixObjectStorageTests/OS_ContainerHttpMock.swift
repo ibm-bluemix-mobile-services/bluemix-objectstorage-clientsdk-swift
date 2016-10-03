@@ -37,7 +37,7 @@ internal class OSContainerHttpMock: HttpManager{
     internal var containers = [String:[String]]()
     
     //maps object names to the data associated with the object
-    internal var objData = [String: NSData]()
+    internal var objData = [String: Data]()
     
     internal var containerMetadataValue:String?
     
@@ -53,16 +53,16 @@ internal class OSContainerHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
      
     */
-    internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func get(resource: HttpResource, headers:[String:String]? = nil, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nGET called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
-        let containerName = getContainerNameFromPath(resource.path)
+        let containerName = getContainerNameFromPath(path: resource.path)
         
-        if self.isGetObjectListCall(resource.path){
-            completionHandler(error: nil, status: 200, headers: headers, data: makeListOfObjects(containerName))
+        if self.isGetObjectListCall(path: resource.path){
+            completionHandler(nil, 200, headers, makeListOfObjects(container: containerName))
         }else{
-            let objectName = getObjectNameFromPath(resource.path)
-            completionHandler(error: nil, status: 200, headers: headers, data: self.objData[objectName])
+            let objectName = getObjectNameFromPath(path: resource.path)
+            completionHandler(nil, 200, headers, self.objData[objectName])
         }
     }
     
@@ -73,11 +73,11 @@ internal class OSContainerHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
         Data: Optional(<74657374 64617461>)
      */
-    internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func put(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPUT called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
-        let containerName = getContainerNameFromPath(resource.path)
-        let objectName = getObjectNameFromPath(resource.path)
+        let containerName = getContainerNameFromPath(path: resource.path)
+        let objectName = getObjectNameFromPath(path: resource.path)
         
         if containers[containerName]==nil {
             containers[containerName] = [objectName]
@@ -87,7 +87,7 @@ internal class OSContainerHttpMock: HttpManager{
             containers[containerName] = objectList//TODO needs to be unwrapped?
         }
         objData[objectName] = data
-        completionHandler(error: nil, status: 201, headers: headers, data: nil)
+        completionHandler(nil, 201, headers, nil)
     }
     
     /*
@@ -96,22 +96,22 @@ internal class OSContainerHttpMock: HttpManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer/testobject.txt")
      */
-    internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func delete(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nDELETE called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
-        let containerName = getContainerNameFromPath(resource.path)
-        let objectName = getObjectNameFromPath(resource.path)
+        let containerName = getContainerNameFromPath(path: resource.path)
+        let objectName = getObjectNameFromPath(path: resource.path)
         
         if let objectList = self.containers[containerName]{
             if objectList.contains(objectName){
                 let updatedObjList = objectList.filter{$0 != objectName}
                 self.containers[containerName] = updatedObjList
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)
+                completionHandler(nil, 200, headers, nil)
             }else{
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make error that object does not exist
+                completionHandler(nil, 200, headers, nil)//TODO make error that object does not exist
             }
         }else{
-            completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make errir that there are no objects in this container
+            completionHandler(nil, 200, headers, nil)//TODO make errir that there are no objects in this container
         }
     }
     
@@ -122,12 +122,12 @@ internal class OSContainerHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
         Data: nil
      */
-    internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func post(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPOST called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         self.containerMetadataValue = headers![OSContainerHttpMock.containerMetadataTestName]
         
-        completionHandler(error: nil, status: 200, headers: headers, data: nil)
+        completionHandler(nil, 200, headers, nil)
     }
     
     /*
@@ -136,13 +136,13 @@ internal class OSContainerHttpMock: HttpManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
      */
-    internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func head(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nHEAD called in CONTAINER. Headers: \(headers). Resource: \(resource)\n")
         
         var newHeaders = headers!
         newHeaders[OSContainerHttpMock.containerMetadataTestName] = self.containerMetadataValue
         
-        completionHandler(error: nil, status: 200, headers: newHeaders, data: nil)
+        completionHandler(nil, 200, newHeaders, nil)
     }
     
     internal func getAuthTokenManager(projectId: String, userId: String, password: String)->AuthTokenManager{
@@ -154,60 +154,60 @@ internal class OSContainerHttpMock: HttpManager{
     }
     
     internal func getInstanceFromPath(path:String)->String{
-        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
+        let newPath = path.substring(with: Range<String.Index>(path.index(path.startIndex, offsetBy: 9)..<path.index(path.startIndex, offsetBy: path.characters.count)))
         
-        var index = indexOf(newPath, substring: "/")
+        var index = indexOf(source: newPath, substring: "/")
         index = index ?? newPath.characters.count
         
-        return newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(0)..<newPath.startIndex.advancedBy(index!)))
+        return newPath.substring(with: Range<String.Index>(newPath.index(newPath.startIndex, offsetBy: 0)..<newPath.index(newPath.startIndex, offsetBy: index!)))
         
     }
     
     internal func getContainerNameFromPath(path:String)->String{
-        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
-        let index = indexOf(newPath, substring: "/")
+        let newPath = path.substring(with: Range<String.Index>(path.index(path.startIndex, offsetBy: 9)..<path.index(path.startIndex, offsetBy: path.characters.count)))
+        let index = indexOf(source: newPath, substring: "/")
         
-        let tempString = newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(index!+1)..<newPath.startIndex.advancedBy(newPath.characters.count)))
-        var index2 = indexOf(tempString, substring: "/")
+        let tempString = newPath.substring(with: Range<String.Index>(newPath.index(newPath.startIndex, offsetBy: index!+1)..<newPath.index(newPath.startIndex, offsetBy: newPath.characters.count)))
+        var index2 = indexOf(source: tempString, substring: "/")
         
         index2 = index2 ?? tempString.characters.count
         
-        return tempString.substringWithRange(Range<String.Index>(tempString.startIndex.advancedBy(0)..<tempString.startIndex.advancedBy(index2!)))
+        return tempString.substring(with: Range<String.Index>(tempString.index(tempString.startIndex, offsetBy: 0)..<tempString.index(tempString.startIndex, offsetBy: index2!)))
     }
     
     internal func getObjectNameFromPath(path:String)->String{
-        let newPath = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
-        let index = indexOf(newPath, substring: "/")
+        let newPath = path.substring(with: Range<String.Index>(path.index(path.startIndex, offsetBy: 9)..<path.index(path.startIndex, offsetBy: path.characters.count)))
+        let index = indexOf(source: newPath, substring: "/")
         
-        let tempString = newPath.substringWithRange(Range<String.Index>(newPath.startIndex.advancedBy(index!+1)..<newPath.startIndex.advancedBy(newPath.characters.count)))
+        let tempString = newPath.substring(with: Range<String.Index>(newPath.index(newPath.startIndex, offsetBy: index!+1)..<newPath.index(newPath.startIndex, offsetBy: newPath.characters.count)))
         
-        let index2 = indexOf(tempString, substring: "/")
+        let index2 = indexOf(source: tempString, substring: "/")
         
-        return tempString.substringWithRange(Range<String.Index>(tempString.startIndex.advancedBy(index2!+1)..<tempString.startIndex.advancedBy(tempString.characters.count)))
+        return tempString.substring(with: Range<String.Index>(tempString.index(tempString.startIndex, offsetBy: index2!+1)..<tempString.index(tempString.startIndex, offsetBy: tempString.characters.count)))
     }
     
     internal func isGetObjectListCall(path:String)->Bool{
-        let containerName = getContainerNameFromPath(path)
-        return !path.containsString("\(containerName)/")
+        let containerName = getContainerNameFromPath(path: path)
+        return !path.contains("\(containerName)/")
     }
     
-    internal func makeListOfObjects(container:String)->NSData{
+    internal func makeListOfObjects(container:String)->Data{
         var data:String = ""
         
         
         for object in self.containers[container]! {
-            data.appendContentsOf(object)
-            data.appendContentsOf("\n")
+            data.append(object)
+            data.append("\n")
         }
         
-        return data.dataUsingEncoding(NSUTF8StringEncoding)!
+        return data.data(using: .utf8)!
     }
     
     func indexOf(source: String, substring: String) -> Int? {
         let maxIndex = source.characters.count - substring.characters.count
         for index in 0...maxIndex {
-            let rangeSubstring = source.startIndex.advancedBy(index)..<source.startIndex.advancedBy(index + substring.characters.count)
-            if source.substringWithRange(rangeSubstring) == substring {
+            let rangeSubstring = source.index(source.startIndex, offsetBy: index)..<source.index(source.startIndex, offsetBy: index + substring.characters.count)
+            if source.substring(with: rangeSubstring) == substring {
                 return index
             }
         }

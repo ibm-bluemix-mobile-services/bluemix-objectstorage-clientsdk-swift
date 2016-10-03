@@ -35,15 +35,15 @@ struct Consts{
 	static let metadataTestValue = "testvalue"
 	static let testTimeout = 10.0
 	
-	static let objectData = "testdata".dataUsingEncoding(NSUTF8StringEncoding)!
+	static let objectData = "testdata".data(using: .utf8)
 	
-	static var bigObjectData:NSData {
+	static var bigObjectData:Data {
 		get {
 			var str = "123456789 ";
 			for _ in 1...17 {
 				str += str
 			}
-			return str.dataUsingEncoding(NSUTF8StringEncoding)!
+			return str.data(using: .utf8)!
 		}
 	}
 }

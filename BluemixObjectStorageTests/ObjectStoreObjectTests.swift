@@ -56,7 +56,7 @@ class ObjectStoreObjectTests: XCTestCase {
     }
     
     func test1_ObjectStore(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         
         XCTAssertNotNil(ObjectStoreObjectTests.objStore, "Failed to initialize ObjectStore")
         XCTAssertEqual(ObjectStoreObjectTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
@@ -66,13 +66,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test2_CreateContainer(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.objStore, "objStore == nil")
         
         ObjectStoreObjectTests.objStore!.createContainer(name: Consts.containerName) {(error, container) in
@@ -88,17 +88,17 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test3_StoreBigObject(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.container, "container == nil")
         
         let bigData = Consts.bigObjectData
-        print("bigObjectData.length == \(bigData.length)")
+        print("bigObjectData.length == \(bigData.count)")
         ObjectStoreObjectTests.container!.storeObject(name: Consts.objectName, data: bigData) { (error, object) in
             XCTAssertNil(error, "Error storing object: \(error)")
             XCTAssertNotNil(object, "object == nil")
@@ -115,13 +115,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test4_LoadBigObjectNoCaching(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         ObjectStoreObjectTests.object!.load(shouldCache: false) { error, data in
@@ -132,13 +132,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test5_LoadObjectWithCaching(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         ObjectStoreObjectTests.object!.load(shouldCache: true) { error, data in
@@ -149,13 +149,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test6_UpdateMetadata(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         let metadata:Dictionary<String, String> = [Consts.objectMetadataTestName:Consts.metadataTestValue]
@@ -164,13 +164,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test7_RetrieveMetadata(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         ObjectStoreObjectTests.object!.retrieveMetadata {error, metadata in
@@ -180,14 +180,14 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     
     func test8_DeleteObject(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
         ObjectStoreObjectTests.object!.delete {error in
@@ -195,13 +195,13 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }
     
     func test9_DeleteContainer(){
-        let expecatation = expectationWithDescription("doneExpectation")
+        let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.container, "container == nil")
         
         ObjectStoreObjectTests.container!.delete {error in
@@ -209,7 +209,7 @@ class ObjectStoreObjectTests: XCTestCase {
             expecatation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(Consts.testTimeout) { (error) in
+        waitForExpectations(timeout: Consts.testTimeout) { (error) in
             XCTAssertNil(error, "Test timeout")
         }
     }

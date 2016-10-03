@@ -73,13 +73,13 @@ internal class ObjectStoreHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
      
      */
-    internal func get(resource resource: HttpResource, headers:[String:String]? = nil, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func get(resource: HttpResource, headers:[String:String]? = nil, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nGET called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
-        if self.isGetContainerListCall(resource.path){
-            completionHandler(error: nil, status: 200, headers: headers, data: self.makeContainerList(self.getInstanceFromPath(resource.path)))
+        if self.isGetContainerListCall(path: resource.path){
+            completionHandler(nil, 200, headers, self.makeContainerList(instance: self.getInstanceFromPath(path: resource.path)))
         }else{
-            completionHandler(error: nil, status: 200, headers: headers, data: nil)
+            completionHandler(nil, 200, headers, nil)
         }
         
     }
@@ -91,12 +91,12 @@ internal class ObjectStoreHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
         Data: nil
     */
-    internal func put(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func put(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPUT called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
-        if let token = headers![ObjectStoreHttpMock.authHeader] where token==ObjectStoreHttpMock.authToken{
-            let instanceId = self.getInstanceFromPath(resource.path)
-            let container = self.getContainerFromPath(resource.path)
+        if let token = headers![ObjectStoreHttpMock.authHeader], token==ObjectStoreHttpMock.authToken{
+            let instanceId = self.getInstanceFromPath(path: resource.path)
+            let container = self.getContainerFromPath(path: resource.path)
             
             if self.objectStore[instanceId] == nil{
                 self.objectStore[instanceId] = [container]
@@ -107,7 +107,7 @@ internal class ObjectStoreHttpMock: HttpManager{
                 self.objectStore[instanceId] = temp //TODO needs to be unwrapped?
             }
             
-            completionHandler(error: nil, status: 200, headers: headers, data: nil)
+            completionHandler(nil, 200, headers, nil)
         }
     }
     
@@ -117,21 +117,21 @@ internal class ObjectStoreHttpMock: HttpManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
     */
-    internal func delete(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func delete(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nDELETE called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
-        let instanceId = self.getInstanceFromPath(resource.path)
-        let container = self.getContainerFromPath(resource.path)
+        let instanceId = self.getInstanceFromPath(path: resource.path)
+        let container = self.getContainerFromPath(path: resource.path)
         
         if let containerList = self.objectStore[instanceId]{
             if containerList.contains(container){
                 let updatedContainerList = containerList.filter{$0 != container}
                 self.objectStore[instanceId] = updatedContainerList
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)
+                completionHandler(nil, 200, headers, nil)
             }else{
-                completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make error that container does not exist
+                completionHandler(nil, 200, headers, nil)//TODO make error that container does not exist
             }
         }else{
-            completionHandler(error: nil, status: 200, headers: headers, data: nil)//TODO make errir that there are no containers associated with this instance ID
+            completionHandler(nil, 200, headers, nil)//TODO make errir that there are no containers associated with this instance ID
         }
     }
     
@@ -142,12 +142,12 @@ internal class ObjectStoreHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
         Data: nil
     */
-    internal func post(resource resource: HttpResource, headers:[String:String]?, data:NSData?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func post(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nPOST called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
         
         self.accoutMetaDataValue = headers![ObjectStoreHttpMock.accountMetadataTestName]
         
-        completionHandler(error: nil, status: 200, headers: headers, data: nil)
+        completionHandler(nil, 200, headers, nil)
     }
     
     /*
@@ -156,13 +156,13 @@ internal class ObjectStoreHttpMock: HttpManager{
         Headers: ["X-Auth-Token": "mockToken"]
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
     */
-    internal func head(resource resource: HttpResource, headers:[String:String]?, completionHandler: NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
+    internal func head(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
         print("\nHEAD called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
         
         var newHeaders = headers!
         newHeaders[ObjectStoreHttpMock.accountMetadataTestName] = self.accoutMetaDataValue
         
-        completionHandler(error: nil, status: 200, headers: newHeaders, data: nil)
+        completionHandler(nil, 200, newHeaders, nil)
     }
     
     //return a mock AuthTokenManager so that when ObjectStorage calls 'refreshToken' we return a mock token without making an external call
@@ -177,46 +177,46 @@ internal class ObjectStoreHttpMock: HttpManager{
     
     //helper function to extract the instance id from the path string
     internal func getInstanceFromPath(path:String)->String{
-        let pathWithPrefixandAuthRemoved = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
+        let pathWithPrefixandAuthRemoved = path.substring(with: Range<String.Index>(path.index(path.startIndex, offsetBy: 9)..<path.index(path.startIndex, offsetBy: path.characters.count)))
         
-        var index = indexOf(pathWithPrefixandAuthRemoved, substring: "/")
+        var index = indexOf(source: pathWithPrefixandAuthRemoved, substring: "/")
         index = index ?? pathWithPrefixandAuthRemoved.characters.count
         
-        return pathWithPrefixandAuthRemoved.substringWithRange(Range<String.Index>(pathWithPrefixandAuthRemoved.startIndex.advancedBy(0)..<pathWithPrefixandAuthRemoved.startIndex.advancedBy(index!)))
+        return pathWithPrefixandAuthRemoved.substring(with: Range<String.Index>(pathWithPrefixandAuthRemoved.startIndex..<pathWithPrefixandAuthRemoved.index(pathWithPrefixandAuthRemoved.startIndex, offsetBy: index!)))
 
     }
     
     //helper function to extract the container name from the path string
     internal func getContainerFromPath(path:String)->String{
-        let pathWithPrefixandAuthRemoved = path.substringWithRange(Range<String.Index>(path.startIndex.advancedBy(9)..<path.startIndex.advancedBy(path.characters.count)))
-        let index = indexOf(pathWithPrefixandAuthRemoved, substring: "/")
+        let pathWithPrefixandAuthRemoved = path.substring(with: Range<String.Index>(path.index(path.startIndex, offsetBy: 9)..<path.index(path.startIndex, offsetBy: path.characters.count)))
+        let index = indexOf(source: pathWithPrefixandAuthRemoved, substring: "/")
         
-        return pathWithPrefixandAuthRemoved.substringWithRange(Range<String.Index>(pathWithPrefixandAuthRemoved.startIndex.advancedBy(index!+1)..<pathWithPrefixandAuthRemoved.startIndex.advancedBy(pathWithPrefixandAuthRemoved.characters.count)))
+        return pathWithPrefixandAuthRemoved.substring(with: Range<String.Index>(pathWithPrefixandAuthRemoved.index(pathWithPrefixandAuthRemoved.startIndex, offsetBy: index!+1)..<pathWithPrefixandAuthRemoved.index(pathWithPrefixandAuthRemoved.startIndex, offsetBy:pathWithPrefixandAuthRemoved.characters.count)))
     }
     
     //helper function to create a list of containers in the format that the callee expects
-    internal func makeContainerList(instance:String)->NSData{
+    internal func makeContainerList(instance:String)->Data{
         var data: String = ""
         
         for object in self.objectStore[instance]!{
-            data.appendContentsOf(object)
-            data.appendContentsOf("\n")
+            data.append(object)
+            data.append("\n")
         }
-        return data.dataUsingEncoding(NSUTF8StringEncoding)!
+        return data.data(using: .utf8)!
     }
     
     //determines if the GET request is asking for a container or a list of available containers
     internal func isGetContainerListCall(path:String)->Bool{
-        let instanceID = getInstanceFromPath(path)
-        return !path.containsString("\(instanceID)/")
+        let instanceID = getInstanceFromPath(path: path)
+        return !path.contains("\(instanceID)/")
     }
     
     //helper function to return the first index of a substring within a string
     func indexOf(source: String, substring: String) -> Int? {
         let maxIndex = source.characters.count - substring.characters.count
         for index in 0...maxIndex {
-            let rangeSubstring = source.startIndex.advancedBy(index)..<source.startIndex.advancedBy(index + substring.characters.count)
-            if source.substringWithRange(rangeSubstring) == substring {
+            let rangeSubstring = source.index(source.startIndex, offsetBy: index)..<source.index(source.startIndex, offsetBy: index + substring.characters.count)
+            if source.substring(with: rangeSubstring) == substring {
                 return index
             }
         }
