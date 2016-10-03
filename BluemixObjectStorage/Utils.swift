@@ -39,9 +39,3 @@ internal class Utils{
 	}
 	
 }
-
-/*
-#if os(Linux)
-#else
-#endif
-*/

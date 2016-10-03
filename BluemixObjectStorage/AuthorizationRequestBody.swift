@@ -19,26 +19,6 @@ internal class AuthorizationRequestBody {
 
 	init(userId:String, password:String, projectId:String){
 		body = "{ \"auth\": { \"identity\": { \"methods\": [ \"password\" ], \"password\": { \"user\": { \"id\": \"" + userId + "\", \"password\": \"" + password + "\" } } }, \"scope\": { \"project\": { \"id\": \"" + projectId + "\" } } } }"
-		
-//		dict =
-//			[
-//				"auth":[
-//					"identity":[
-//						"methods":["password"],
-//						"password":[
-//							"user": [
-//								"id":userId,
-//								"password":password
-//							]
-//						]
-//					],
-//					"scope":[
-//						"project":[
-//							"id":projectId
-//						]
-//					]
-//				]
-//			]
 	}
 
 	func data() -> Data {
