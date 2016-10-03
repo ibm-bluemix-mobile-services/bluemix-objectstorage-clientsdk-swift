@@ -22,7 +22,7 @@ internal class Utils{
 	}
 
 	static func createHeaderDictionary(authToken:String?, additionalHeaders:[String:String]? = nil) -> [String:String]{
-		var headers:Dictionary<String, String> = [:]
+		var headers:[String: String] = [:]
 		if let authToken = authToken {
 			headers.updateValue(authToken, forKey: X_AUTH_TOKEN)
 		}

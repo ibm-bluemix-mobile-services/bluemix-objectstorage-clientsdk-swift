@@ -18,12 +18,20 @@ import Foundation
 /// Use ObjectStore instance to connect to IBM Object Store service and manage containers
 open class ObjectStorage {
     
-    /// Use this value in .connect(...)  methods to connect to Dallas instance of IBM Object Store
-    open static let REGION_DALLAS = "DALLAS"
-    internal static let DALLAS_RESOURCE = HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
     
-    /// Use this value in .connect(...)  methods to connect to London instance of IBM Object Store
-    open static let REGION_LONDON = "LONDON"
+    
+    /// The region where the IBM Object Store is hosted
+    public struct Region {
+        
+        /// Use this value in .connect(...)  methods to connect to Dallas instance of IBM Object Store
+        public static let Dallas = "DALLAS"
+        /// Use this value in .connect(...)  methods to connect to London instance of IBM Object Store
+        public static let London = "LONDON"
+    }
+    
+    
+    internal static let DALLAS_RESOURCE = HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
+
     internal static let LONDON_RESOURCE = HttpResource(schema: "https", host: "lon.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_")
     
     fileprivate let logger:Logger
@@ -59,7 +67,7 @@ open class ObjectStorage {
                 self.authTokenManager = nil
                 completionHandler(ObjectStorageError.failedToRetrieveAuthToken)
             } else {
-                self.projectResource = (region == ObjectStorage.REGION_DALLAS) ?
+                self.projectResource = (region == ObjectStorage.Region.Dallas) ?
                     ObjectStorage.DALLAS_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId) :
                     ObjectStorage.LONDON_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId)
                 
@@ -74,11 +82,11 @@ open class ObjectStorage {
      - Parameter authToken: authToken obtained from Identity Server
      - Parameter region: Defines whether ObjectStore should connect to Dallas or London instance of IBM Object Store. Use *ObjectStore.REGION_DALLAS* and *ObjectStore.REGION_LONDON* as values
      */
-    open func connect(_ authToken:String, region:String, completionHandler:@escaping (ObjectStorageError?) -> Void) {
+    open func connect(authToken:String, region:String, completionHandler:@escaping (ObjectStorageError?) -> Void) {
         self.authTokenManager = self.httpManager!.getAuthTokenManager(projectId: projectId, authToken: authToken)
         
         //if first time calling this method, the project resource could be nil, then would fail when retrieveContainer is called
-        self.projectResource = (region == ObjectStorage.REGION_DALLAS) ?
+        self.projectResource = (region == ObjectStorage.Region.Dallas) ?
             ObjectStorage.DALLAS_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId) :
             ObjectStorage.LONDON_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId)
         
@@ -87,7 +95,7 @@ open class ObjectStorage {
                 self.authTokenManager = nil
                 completionHandler(error)
             } else {
-                self.projectResource = (region == ObjectStorage.REGION_DALLAS) ?
+                self.projectResource = (region == ObjectStorage.Region.Dallas) ?
                     ObjectStorage.DALLAS_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId) :
                     ObjectStorage.LONDON_RESOURCE.resourceByAddingPathComponent(pathComponent: self.projectId)
                 completionHandler(nil)
@@ -101,7 +109,7 @@ open class ObjectStorage {
      
      - Parameter name: The name of container to be created
      */
-    open func createContainer(name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageContainer?) -> Void){
+    open func create(container name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageContainer?) -> Void){
         logger.info("Creating container [\(name)]")
         
         guard projectResource != nil else{
@@ -135,7 +143,7 @@ open class ObjectStorage {
      
      - Parameter name: The name of container to retrieve
      */
-    open func retrieveContainer(name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageContainer?) -> Void){
+    open func retrieve(container name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageContainer?) -> Void){
         logger.info("Retrieving container [\(name)]")
         
         guard projectResource != nil else{
@@ -212,7 +220,7 @@ open class ObjectStorage {
      
      - Parameter name: The name of container to delete
      */
-    open func deleteContainer(name:String, completionHandler: @escaping (ObjectStorageError?) -> Void){
+    open func delete(container name:String, completionHandler: @escaping (ObjectStorageError?) -> Void){
         logger.info("Deleting container [\(name)]")
         
         guard projectResource != nil else{
@@ -245,7 +253,7 @@ open class ObjectStorage {
      
      - Parameter metadata: a dictionary of metadata items, e.g. ["X-Account-Meta-Subject":"AmericanHistory"]. It is possible to supply multiple metadata items within same invocation. To delete a particular metadata item set it's value to an empty string, e.g. ["X-Account-Meta-Subject":""]. See Object Storage API v1 for more information about possible metadata items - http://developer.openstack.org/api-ref-objectstorage-v1.html
      */
-    open func updateMetadata(metadata:Dictionary<String, String>, completionHandler: @escaping (ObjectStorageError?) -> Void){
+    open func update(metadata:[String: String], completionHandler: @escaping (ObjectStorageError?) -> Void){
         logger.info("Updating metadata :: \(metadata)")
         
         guard projectResource != nil else {
@@ -272,7 +280,7 @@ open class ObjectStorage {
     }
     
     /**
-     Retrieve account metadata. The metadata will be returned to a completionHandler as a Dictionary<String, String> instance with set of keys and values
+     Retrieve account metadata. The metadata will be returned to a completionHandler as a [String: String] instance with set of keys and values
      
      */
     open func retrieveMetadata(completionHandler: @escaping (ObjectStorageError?, _ metadata: [String:String]?) -> Void) {

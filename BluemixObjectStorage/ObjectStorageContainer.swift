@@ -42,7 +42,7 @@ open class ObjectStorageContainer{
      - Parameter name: The name of the object to be stored
      - Parameter data: The object content
      */
-    open func storeObject(name:String, data:Data, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
+    open func store(object name:String, data:Data, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
         logger.info("Storing object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
@@ -71,7 +71,7 @@ open class ObjectStorageContainer{
      
      - Parameter name: The name of the object to be retrieved
      */
-    open func retrieveObject(name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
+    open func retrieve(object name:String, completionHandler: @escaping (ObjectStorageError?, ObjectStorageObject?)->Void){
         logger.info("Retrieving object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
@@ -139,7 +139,7 @@ open class ObjectStorageContainer{
      
      - Parameter name: The name of the object to be deleted
      */
-    open func deleteObject(name: String, completionHandler: @escaping (ObjectStorageError?) -> Void){
+    open func delete(object name: String, completionHandler: @escaping (ObjectStorageError?) -> Void){
         logger.info("Deleting object [\(name)]")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
@@ -166,7 +166,7 @@ open class ObjectStorageContainer{
      
      */
     open func delete(completionHandler:@escaping (ObjectStorageError?)->Void){
-        self.objectStore.deleteContainer(name: self.name, completionHandler: completionHandler)
+        self.objectStore.delete(container: self.name, completionHandler: completionHandler)
     }
     
     /**
@@ -174,7 +174,7 @@ open class ObjectStorageContainer{
      
      - Parameter metadata: a dictionary of metadata items, e.g. ["X-Container-Meta-Subject":"AmericanHistory"]. It is possible to supply multiple metadata items within same invocation. To delete a particular metadata item set it's value to an empty string, e.g. ["X-Container-Meta-Subject":""]. See Object Storage API v1 for more information about possible metadata items - http://developer.openstack.org/api-ref-objectstorage-v1.html
      */
-    open func updateMetadata(metadata:Dictionary<String, String>, completionHandler: @escaping (ObjectStorageError?)->Void){
+    open func update(metadata:[String: String], completionHandler: @escaping (ObjectStorageError?)->Void){
         logger.info("Updating metadata :: \(metadata)")
         
         objectStore.authTokenManager?.refreshAuthToken({ (error, authToken) in
@@ -195,7 +195,7 @@ open class ObjectStorageContainer{
     }
     
     /**
-     Retrieve container metadata. The metadata will be returned to a completionHandler as a Dictionary<String, String> instance with set of keys and values
+     Retrieve container metadata. The metadata will be returned to a completionHandler as a [String: String] instance with set of keys and values
      
      */
     open func retrieveMetadata(completionHandler: @escaping (ObjectStorageError?, [String:String]?) -> Void) {

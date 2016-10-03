@@ -19,7 +19,7 @@ internal class ObjectStoreHttpMock: HttpManager{
     
     static let userId = "8d261e25c5bb4a6783c7cde133f8f1dd"
     static let password = "V7]W!i!065jjThaw"
-    static let region = ObjectStorage.REGION_DALLAS
+    static let region = ObjectStorage.Region.Dallas
     static let authToken = "mockToken"
     static let resourceBase = ObjectStorage.DALLAS_RESOURCE
     

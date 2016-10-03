@@ -75,7 +75,7 @@ class ObjectStoreObjectTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.objStore, "objStore == nil")
         
-        ObjectStoreObjectTests.objStore!.createContainer(name: Consts.containerName) {(error, container) in
+        ObjectStoreObjectTests.objStore!.create(container: Consts.containerName) {(error, container) in
             XCTAssertNil(error, "Error creating container: \(error)")
             XCTAssertNotNil(container, "container == nil")
             XCTAssertEqual(container?.name, Consts.containerName, "container.name != \(Consts.containerName)")
@@ -99,7 +99,7 @@ class ObjectStoreObjectTests: XCTestCase {
         
         let bigData = Consts.bigObjectData
         print("bigObjectData.length == \(bigData.count)")
-        ObjectStoreObjectTests.container!.storeObject(name: Consts.objectName, data: bigData) { (error, object) in
+        ObjectStoreObjectTests.container!.store(object: Consts.objectName, data: bigData) { (error, object) in
             XCTAssertNil(error, "Error storing object: \(error)")
             XCTAssertNotNil(object, "object == nil")
             XCTAssertEqual(object?.name, Consts.objectName, "object.name != \(Consts.objectName)")
@@ -158,8 +158,8 @@ class ObjectStoreObjectTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         XCTAssertNotNil(ObjectStoreObjectTests.object, "object == nil")
         
-        let metadata:Dictionary<String, String> = [Consts.objectMetadataTestName:Consts.metadataTestValue]
-        ObjectStoreObjectTests.object!.updateMetadata(metadata: metadata) {error in
+        let metadata:[String: String] = [Consts.objectMetadataTestName:Consts.metadataTestValue]
+        ObjectStoreObjectTests.object!.update(metadata: metadata) {error in
             XCTAssertNil(error, "Error updating object metadata: \(error)")
             expecatation.fulfill()
         }
