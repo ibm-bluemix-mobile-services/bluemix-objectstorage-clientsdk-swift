@@ -244,7 +244,6 @@
 				3AF405751D00C5E4003EF0B4 /* Frameworks */,
 				3AF405761D00C5E4003EF0B4 /* Headers */,
 				3AF405771D00C5E4003EF0B4 /* Resources */,
-				CE1CCDB11D109F3E00F934A9 /* ShellScript */,
 				229E6EC9B5ABE4163A857F58 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -407,21 +406,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BluemixObjectStorageTests/Pods-BluemixObjectStorageTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		CE1CCDB11D109F3E00F934A9 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/BMSCore.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
