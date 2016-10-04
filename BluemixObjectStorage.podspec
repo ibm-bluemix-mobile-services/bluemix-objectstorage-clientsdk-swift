@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'BluemixObjectStorage'
-  s.version      = '0.0.5'
+  s.version      = '1.0.0'
   s.summary      = 'Bluemix Object Storage SDK'
   s.homepage     = 'https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift'
   s.license      = 'Apache License, Version 2.0'
@@ -9,17 +9,11 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.git', :tag => s.version }
 
   s.source_files = 'BluemixObjectStorage/**/*'
-
   s.exclude_files = 'BluemixObjectStorage/**/*.plist'
-  #s.ios.exclude_files = 'Source/**/*watchOS*.swift'
-  #s.watchos.exclude_files = 'Source/**/*iOS*.swift'
-
-  s.ios.deployment_target = '8.0'
-  #s.watchos.deployment_target = '2.0'
-
-  #s.module_map = 'Source/Resources/module.modulemap'
 
   s.dependency 'BMSCore', '~> 2.0'
+
+  s.ios.deployment_target = '8.0'
 
   s.requires_arc = true
 
