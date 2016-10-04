@@ -76,12 +76,12 @@ Then run the `carthage update` command. Once the build is finished, add `Bluemix
 ##### Update account metadata
 
 ```swift
-let metadata:Dictionary<String, String> = ["X-Account-Meta-SomeName":"SomeValue"]
-objstorage.updateMetadata(metadata: metadata) { (error) in
+let metadata:[String: String] = ["X-Account-Meta-SomeName":"SomeValue"]
+objstorage.update(metadata: metadata) { (error) in
 	if let error = error {
-		print("updateMetadata error :: \(error)")
+		print("update metadata error :: \(error)")
 	} else {
-		print("updateMetadata success")
+		print("update metadata success")
 	}
 }
 ```
@@ -91,9 +91,9 @@ objstorage.updateMetadata(metadata: metadata) { (error) in
 ```swift
 objstorage.retrieveMetadata { (error, metadata) in
 	if let error = error {
-		print("retrieveMetadata error :: \(error)")
+		print("retrieve metadata error :: \(error)")
 	} else {
-		print("retrieveMetadata success :: \(metadata)")
+		print("retrieve metadata success :: \(metadata)")
 	}
 }
 ```
@@ -108,9 +108,9 @@ Use `ObjectStorage` instance to connect to IBM Object Storage service.
 
 ```swift
 let objstorage = ObjectStorage(projectId:"your-project-id")
-objstorage.connect(	userId: "your-service-userId",
- 					password: "your-service-password",
-					region: ObjectStorage.REGION_DALLAS) { (error) in
+objstorage.connect(userId: "your-service-userId",
+ 				   password: "your-service-password",
+				   region: ObjectStorage.Region.Dallas) { (error) in
 	if let error = error {
 		print("connect error :: \(error)")
 	} else {
@@ -123,8 +123,8 @@ objstorage.connect(	userId: "your-service-userId",
 
 ```swift
 let objstorage = ObjectStorage(projectId:"your-project-id")
-objstorage.connect(	authToken: "your-auth-token",
-					region: ObjectStorage.REGION_DALLAS) { (error) in
+objstorage.connect(authToken: "your-auth-token",
+		   		   region: ObjectStorage.Region.Dallas) { (error) in
 	if let error = error {
 		print("connect error :: \(error)")
 	} else {
@@ -142,11 +142,11 @@ Use ObjectStorage instance to manage containers.
 ##### Create a new container
 
 ```swift
-objstorage.createContainer(name: "container-name") { (error, container) in
+objstorage.create(container: "container-name") { (error, container) in
 	if let error = error {
-		print("createContainer error :: \(error)")
+		print("create container error :: \(error)")
 	} else {
-		print("createContainer success :: \(container?.name)")
+		print("create container success :: \(container?.name)")
 	}
 }
 ```
@@ -154,11 +154,11 @@ objstorage.createContainer(name: "container-name") { (error, container) in
 ##### Retrieve an existing container
 
 ```swift
-objstorage.retrieveContainer(name: "container-name") { (error, container) in
+objstorage.retrieve(container: "container-name") { (error, container) in
 	if let error = error {
-		print("retrieveContainer error :: \(error)")
+		print("retrieve container error :: \(error)")
 	} else {
-		print("retrieveContainer success :: \(container?.name)")
+		print("retrieve container success :: \(container?.name)")
 	}
 }
 ```
@@ -168,9 +168,9 @@ objstorage.retrieveContainer(name: "container-name") { (error, container) in
 ```swift
 objstorage.retrieveContainersList { (error, containers) in
 	if let error = error {
-		print("retrieveContainersList error :: \(error)")
+		print("retrieve containers list error :: \(error)")
 	} else {
-		print("retrieveContainersList success :: \(containers?.description)")
+		print("retrieve containers list success :: \(containers?.description)")
 	}
 }
 ```
@@ -178,11 +178,11 @@ objstorage.retrieveContainersList { (error, containers) in
 ##### Delete an existing container
 
 ```swift
-objstorage.deleteContainer(name: "container-name") { (error) in
+objstorage.delete(container: "container-name") { (error) in
 	if let error = error {
-		print("deleteContainer error :: \(error)")
+		print("delete container error :: \(error)")
 	} else {
-		print("deleteContainer success")
+		print("delete container success")
 	}
 }
 ```
@@ -194,9 +194,9 @@ You can also use `ObjectStorageContainer` instance to manage containers
 ```swift
 container.delete { (error) in
 	if let error = error {
-		print("deleteContainer error :: \(error)")
+		print("delete container error :: \(error)")
 	} else {
-		print("deleteContainer success")
+		print("delete container success")
 	}
 }
 ```
@@ -204,12 +204,12 @@ container.delete { (error) in
 ##### Update container metadata
 
 ```swift
-let metadata:Dictionary<String, String> = ["X-Container-Meta-SomeName":"SomeValue"]
-container.updateMetadata(metadata: metadata) { (error) in
+let metadata:[String: String] = ["X-Container-Meta-SomeName":"SomeValue"]
+container.update(metadata: metadata) { (error) in
 	if let error = error {
-		print("updateMetadata error :: \(error)")
+		print("update metadata error :: \(error)")
 	} else {
-		print("updateMetadata success")
+		print("update metadata success")
 	}
 }
 ```
@@ -237,17 +237,12 @@ Use `ObjectStorageContainer` instance to manage objects inside of particular con
 ##### Create a new object or update an existing one
 
 ```swift
-#if os(Linux)
-	let data = "testdata".dataUsingEncoding(NSUTF8StringEncoding)!
-#else
-	let data = "testdata".data(using: NSUTF8StringEncoding)!
-#endif
-let data = str.dataUsingEncoding(NSUTF8StringEncoding)
-container.storeObject(name: "object-name", data: data) { (error, object) in
+let data = "testdata".data(using: NSUTF8StringEncoding)!
+container.store(object: "object-name", data: data) { (error, object) in
 	if let error = error {
-		print("storeObject error :: \(error)")
+		print("store object error :: \(error)")
 	} else {
-		print("storeObject success :: \(object?.name)")
+		print("store object success :: \(object?.name)")
 	}
 }
 ```
@@ -255,11 +250,11 @@ container.storeObject(name: "object-name", data: data) { (error, object) in
 ##### Retrieve an existing object
 
 ```swift
-container.retrieveObject(name: "object-name") { (error, object) in
+container.retrieve(object: "object-name") { (error, object) in
 	if let error = error {
-		print("retrieveObject error :: \(error)")
+		print("retrieve object error :: \(error)")
 	} else {
-		print("retrieveObject success :: \(object?.name)")
+		print("retrieve object success :: \(object?.name)")
 	}
 }
 ```
@@ -279,11 +274,11 @@ container.retrieveObjectsList { (error, objects) in
 ##### Delete an existing object
 
 ```swift
-container.deleteObject(name: "object-name") { (error) in
+container.delete(object: "object-name") { (error) in
 	if let error = error {
-		print("deleteObject error :: \(error)")
+		print("delete object error :: \(error)")
 	} else {
-		print("deleteObject success")
+		print("delete object success")
 	}
 }
 ```
@@ -305,12 +300,12 @@ object.load(shouldCache: false) { (error, data) in
 ##### Update object metadata
 
 ```swift
-let metadata:Dictionary<String, String> = ["X-Object-Meta-SomeName":"SomeValue"]
-object.updateMetadata(metadata: metadata) { (error) in
+let metadata:[String: String] = ["X-Object-Meta-SomeName":"SomeValue"]
+object.update(metadata: metadata) { (error) in
 	if let error = error {
-		print("updateMetadata error :: \(error)")
+		print("update metadata error :: \(error)")
 	} else {
-		print("updateMetadata success")
+		print("update metadata success")
 	}
 }
 ```
@@ -320,9 +315,9 @@ object.updateMetadata(metadata: metadata) { (error) in
 ```swift
 object.retrieveMetadata { (error, metadata) in
 	if let error = error {
-		print("retrieveMetadata error :: \(error)")
+		print("retrieve metadata error :: \(error)")
 	} else {
-		print("retrieveMetadata success :: \(metadata)")
+		print("retrieve metadata success :: \(metadata)")
 	}
 }
 ```
@@ -338,14 +333,14 @@ The `ObjectStorageError` is an enum with possible failure reasons
 
 ```swift
 enum ObjectStorageError: ErrorType {
-	case ConnectionFailure
-	case NotFound
-	case Unauthorized
-	case ServerError
-	case InvalidUri
-	case FailedToRetrieveAuthToken
-	case NotConnected
-	case CannotRefreshAuthToken
+	case connectionFailure
+	case notFound
+	case unauthorized
+	case serverError
+	case invalidUri
+	case failedToRetrieveAuthToken
+	case notConnected
+	case cannotRefreshAuthToken
 }
 ```
 
