@@ -84,7 +84,7 @@ Use `ObjectStorage` instance to connect to IBM Object Storage service.
 ##### Connect to the IBM Object Storage service using userId and password
 
 ```swift
-let objstorage = ObjectStorage(projectId:"your-project-id")
+let objstorage = ObjectStorage(projectId: "your-project-id")
 objstorage.connect(userId: "your-service-userId",
  				   password: "your-service-password",
 				   region: ObjectStorage.Region.Dallas) { (error) in
@@ -99,7 +99,7 @@ objstorage.connect(userId: "your-service-userId",
 ##### Connect to the IBM Object Storage service using explicit authToken
 
 ```swift
-let objstorage = ObjectStorage(projectId:"your-project-id")
+let objstorage = ObjectStorage(projectId: "your-project-id")
 objstorage.connect(authToken: "your-auth-token",
 		   		   region: ObjectStorage.Region.Dallas) { (error) in
 	if let error = error {
@@ -181,7 +181,7 @@ container.delete { (error) in
 ##### Update container metadata
 
 ```swift
-let metadata:[String: String] = ["X-Container-Meta-SomeName":"SomeValue"]
+let metadata = ["X-Container-Meta-SomeName": "SomeValue"]
 container.update(metadata: metadata) { (error) in
 	if let error = error {
 		print("update metadata error :: \(error)")
@@ -214,7 +214,7 @@ Use `ObjectStorageContainer` instance to manage objects inside of particular con
 ##### Create a new object or update an existing one
 
 ```swift
-let data = "testdata".data(using: NSUTF8StringEncoding)!
+let data = "testdata".data(using: .utf8)!
 container.store(object: "object-name", data: data) { (error, object) in
 	if let error = error {
 		print("store object error :: \(error)")
@@ -277,7 +277,7 @@ object.load(shouldCache: false) { (error, data) in
 ##### Update object metadata
 
 ```swift
-let metadata:[String: String] = ["X-Object-Meta-SomeName":"SomeValue"]
+let metadata = ["X-Object-Meta-SomeName": "SomeValue"]
 object.update(metadata: metadata) { (error) in
 	if let error = error {
 		print("update metadata error :: \(error)")
@@ -308,7 +308,7 @@ object.retrieveMetadata { (error, metadata) in
 ##### Update account metadata
 
 ```swift
-let metadata:[String: String] = ["X-Account-Meta-SomeName":"SomeValue"]
+let metadata = ["X-Account-Meta-SomeName": "SomeValue"]
 objstorage.update(metadata: metadata) { (error) in
 	if let error = error {
 		print("update metadata error :: \(error)")
