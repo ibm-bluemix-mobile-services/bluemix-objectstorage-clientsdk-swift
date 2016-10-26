@@ -21,9 +21,6 @@ You can use this client SDK to store and retrieve binary data on your Object Sto
 
 Read the [official documentation](https://new-console.ng.bluemix.net/docs/services/ObjectStorage/index.html) for information about getting started with Object Storage.
 
-[//]: # (Link to the Getting Started docs)
-[//]: # (Replace [Service] with your Service name)
-
 ### Requirements
 * iOS 8.0+
 * Xcode 7+
@@ -58,45 +55,25 @@ github "ibm-bluemix-mobile-services/bluemix-objectstorage-clientdsk-swift"
 Then run the `carthage update` command. Once the build is finished, add `BluemixObjectStorage.framework`, `BMSCore.framework` and `BMSAnalyticsAPI.framework` to your project. 
 
 ### Example Usage
-[//]: # (You are going to want to put common scenarios for the examples here to avoid looking through the docs for non-complex usage)
 
-* [Account metadata](#account-metadata)
+* [Importing module](#importing-module)
 * [Connecting to Object Storage](#connecting-to-object-storage)
 * [Managing containers](#managing-containers)
 * [Managing objects](#managing-objects)
+* [Account metadata](#account-metadata)
 * [Types of errors](#types-of-errors)
 
-> View the complete API reference [here]().
-[//]: # (link to JavaDoc, Jazzy for Swift, etc.)
+> View the complete API reference [here](http://cocoadocs.org/docsets/BluemixObjectStorage).
 
 --
+#### Importing module
 
-#### Account metadata
+##### Adding the framework
 
-##### Update account metadata
-
-```swift
-let metadata:[String: String] = ["X-Account-Meta-SomeName":"SomeValue"]
-objstorage.update(metadata: metadata) { (error) in
-	if let error = error {
-		print("update metadata error :: \(error)")
-	} else {
-		print("update metadata success")
-	}
-}
+```Swift
+import BluemixObjectStorage
 ```
 
-##### Retrieve account metadata
-
-```swift
-objstorage.retrieveMetadata { (error, metadata) in
-	if let error = error {
-		print("retrieve metadata error :: \(error)")
-	} else {
-		print("retrieve metadata success :: \(metadata)")
-	}
-}
-```
 > [View examples](#example-usage)
 
 --
@@ -325,6 +302,37 @@ object.retrieveMetadata { (error, metadata) in
 
 --
 
+
+#### Account metadata
+
+##### Update account metadata
+
+```swift
+let metadata:[String: String] = ["X-Account-Meta-SomeName":"SomeValue"]
+objstorage.update(metadata: metadata) { (error) in
+	if let error = error {
+		print("update metadata error :: \(error)")
+	} else {
+		print("update metadata success")
+	}
+}
+```
+
+##### Retrieve account metadata
+
+```swift
+objstorage.retrieveMetadata { (error, metadata) in
+	if let error = error {
+		print("retrieve metadata error :: \(error)")
+	} else {
+		print("retrieve metadata success :: \(metadata)")
+	}
+}
+```
+> [View examples](#example-usage)
+
+--
+
 #### Types of errors
 
 #### ObjectStorageError
@@ -344,6 +352,9 @@ enum ObjectStorageError: ErrorType {
 }
 ```
 
+> [View examples](#example-usage)
+
+--
 
 ### License
 This package contains code licensed under the Apache License, Version 2.0 (the "License"). You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 and may also view the License in the LICENSE file within this package.
