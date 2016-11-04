@@ -23,7 +23,8 @@ Read the [official documentation](https://new-console.ng.bluemix.net/docs/servic
 
 ### Requirements
 * iOS 8.0+
-* Xcode 7+
+* Xcode 8+
+* Swift 3.0
 
 ### Installation
 
