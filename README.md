@@ -6,6 +6,7 @@ Bluemix Client SDK for Object Storage in Swift
 [![](https://img.shields.io/badge/bluemix-powered-blue.svg)](https://bluemix.net)
 [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift)
  [![Platform](https://img.shields.io/cocoapods/p/BluemixObjectStorage.svg?style=flat)](http://cocoadocs.org/docsets/BluemixObjectStorage)
+ [![Codacy Badge](https://api.codacy.com/project/badge/Grade/24ddc2957b5449b38e554174529ed79e)](https://www.codacy.com/app/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift&amp;utm_campaign=Badge_Grade)
 
 ### Table of Contents
 * [Summary](#summary)
