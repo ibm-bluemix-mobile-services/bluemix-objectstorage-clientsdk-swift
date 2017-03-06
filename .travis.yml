@@ -9,7 +9,7 @@ before_script:
   - pod setup
 script:
   - pod install
-  - pod lib lint
+  - pod lib lint --allow-warnings
   - carthage update
   - xcodebuild clean build -workspace 'BluemixObjectStorage.xcworkspace' -scheme 'BluemixObjectStorage' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
   - xcodebuild test -workspace 'BluemixObjectStorage.xcworkspace' -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6s'
