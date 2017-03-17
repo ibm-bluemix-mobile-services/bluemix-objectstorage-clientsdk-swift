@@ -1,15 +1,22 @@
 language: objective-c
+
 matrix:
   include:
-    - osx_image: xcode8
+    - osx_image: xcode8.2
+
+before_install:
+  - rvm install 2.4.0
+
 install:
-  - gem install cocoapods --pre
-before_script:
-  - rm -rf ~/Library/Developer/Xcode/DerivedData
-  - pod setup
+  - gem install slather
+  - gem install cocoapods
+
 script:
   - pod install
   - pod lib lint --allow-warnings
   - carthage update
   - xcodebuild clean build -workspace 'BluemixObjectStorage.xcworkspace' -scheme 'BluemixObjectStorage' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-  - xcodebuild test -workspace 'BluemixObjectStorage.xcworkspace' -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6s'
+  - xcodebuild test -workspace 'BluemixObjectStorage.xcworkspace' -scheme 'BluemixObjectStorageTests' -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1'
+
+after_success:
+  - slather
