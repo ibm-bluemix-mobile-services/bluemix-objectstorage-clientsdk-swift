@@ -59,7 +59,7 @@ class ObjectStoreTests: XCTestCase {
         XCTAssertEqual(ObjectStoreTests.objStore!.projectId, Consts.projectId, "ObjectStore projectId is not equal to the one initialized with")
         
         ObjectStoreTests.objStore!.connect(userId: Consts.userId, password: Consts.password, region: Consts.region, completionHandler: { (error) in
-            XCTAssertNil(error, "Error connecting to objectStore: \(error)")
+            XCTAssertNil(error, "Error connecting to objectStore: \(String(describing: error))")
             expecatation.fulfill()
         })
         
@@ -73,7 +73,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         let metadata:[String: String] = [Consts.accountMetadataTestName:Consts.metadataTestValue]
         ObjectStoreTests.objStore!.update(metadata: metadata) { (error) in
-            XCTAssertNil(error, "Error updating objectStore metadata: \(error)")
+            XCTAssertNil(error, "Error updating objectStore metadata: \(String(describing: error))")
             expecatation.fulfill()
         }
         
@@ -87,7 +87,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreTests.objStore!.retrieveMetadata { (error, metadata) in
-            XCTAssertNil(error, "Error retrieving objectStore metadata: \(error)")
+            XCTAssertNil(error, "Error retrieving objectStore metadata: \(String(describing: error))")
             XCTAssertNotNil(metadata, "metadata == nil")
             XCTAssertEqual(metadata![Consts.accountMetadataTestName], Consts.metadataTestValue, "metadataTestValue != \(Consts.metadataTestValue)")
             expecatation.fulfill()
@@ -103,7 +103,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreTests.objStore!.create(container: Consts.containerName) {(error, container) in
-            XCTAssertNil(error, "Error creating container: \(error)")
+            XCTAssertNil(error, "Error creating container: \(String(describing: error))")
             XCTAssertNotNil(container, "container == nil")
             XCTAssertEqual(container?.name, Consts.containerName, "container.name != \(Consts.containerName)")
             XCTAssertNotNil(container?.objectStore, "container.objectStore == nil")
@@ -121,7 +121,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreTests.objStore!.retrieve(container: Consts.containerName) { (error, container) in
-            XCTAssertNil(error, "Error retrieving container: \(error)")
+            XCTAssertNil(error, "Error retrieving container: \(String(describing: error))")
             XCTAssertNotNil(container, "container == nil")
             XCTAssertEqual(container?.name, Consts.containerName, "container.name != \(Consts.containerName)")
             XCTAssertNotNil(container?.objectStore, "container.objectStore == nil")
@@ -139,7 +139,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreTests.objStore!.retrieveContainersList { (error, containers) in
-            XCTAssertNil(error, "Error retrieving container list: \(error)")
+            XCTAssertNil(error, "Error retrieving container list: \(String(describing: error))")
             XCTAssertNotNil(containers, "containers == nil")
             XCTAssertNotNil(containers?.count, "containers.count == nil")
             XCTAssertGreaterThan(Int(containers!.count), Int(0), "containers.count <= 0")
@@ -160,7 +160,7 @@ class ObjectStoreTests: XCTestCase {
         let expecatation = expectation(description: "doneExpectation")
         
         ObjectStoreTests.objStore!.delete(container: Consts.containerName) { (error) in
-            XCTAssertNil(error, "Error deleting container: \(error)")
+            XCTAssertNil(error, "Error deleting container: \(String(describing: error))")
             expecatation.fulfill()
         }
         

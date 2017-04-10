@@ -74,7 +74,7 @@ internal class ObjectStoreHttpMock: HttpManager{
      
      */
     internal func get(resource: HttpResource, headers:[String:String]? = nil, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nGET called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
+        print("\nGET called in ObjecStoreMock. Headers: \(String(describing: headers)). Resource: \(resource)\n")
         
         if self.isGetContainerListCall(path: resource.path){
             completionHandler(nil, 200, headers, self.makeContainerList(instance: self.getInstanceFromPath(path: resource.path)))
@@ -92,7 +92,7 @@ internal class ObjectStoreHttpMock: HttpManager{
         Data: nil
     */
     internal func put(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nPUT called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
+        print("\nPUT called in ObjecStoreMock. Headers: \(String(describing: headers)). Resource: \(resource). Data: \(String(describing: data))\n")
         
         if let token = headers![ObjectStoreHttpMock.authHeader], token==ObjectStoreHttpMock.authToken{
             let instanceId = self.getInstanceFromPath(path: resource.path)
@@ -118,7 +118,7 @@ internal class ObjectStoreHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9/testcontainer")
     */
     internal func delete(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nDELETE called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
+        print("\nDELETE called in ObjecStoreMock. Headers: \(String(describing: headers)). Resource: \(resource)\n")
         let instanceId = self.getInstanceFromPath(path: resource.path)
         let container = self.getContainerFromPath(path: resource.path)
         
@@ -143,7 +143,7 @@ internal class ObjectStoreHttpMock: HttpManager{
         Data: nil
     */
     internal func post(resource: HttpResource, headers:[String:String]?, data:Data?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nPOST called in ObjecStoreMock. Headers: \(headers). Resource: \(resource). Data: \(data)\n")
+        print("\nPOST called in ObjecStoreMock. Headers: \(String(describing: headers)). Resource: \(resource). Data: \(String(describing: data))\n")
         
         self.accoutMetaDataValue = headers![ObjectStoreHttpMock.accountMetadataTestName]
         
@@ -157,7 +157,7 @@ internal class ObjectStoreHttpMock: HttpManager{
         Resource: HttpResource(schema: "https", host: "dal.objectstorage.open.softlayer.com", port: "443", path: "/v1/AUTH_09a0eea3fdcd4095aff2600f7a73e2d9")
     */
     internal func head(resource: HttpResource, headers:[String:String]?, completionHandler: @escaping NetworkRequestCompletionHandler = NOOPNetworkRequestCompletionHandler){
-        print("\nHEAD called in ObjecStoreMock. Headers: \(headers). Resource: \(resource)\n")
+        print("\nHEAD called in ObjecStoreMock. Headers: \(String(describing: headers)). Resource: \(resource)\n")
         
         var newHeaders = headers!
         newHeaders[ObjectStoreHttpMock.accountMetadataTestName] = self.accoutMetaDataValue

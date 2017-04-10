@@ -328,7 +328,7 @@ public struct BMSURLSession {
                 }
             }
             else {
-                BMSURLSession.logger.error(message: "Authorization process failed. \nError: \(error). \nResponse: \(response).")
+                BMSURLSession.logger.error(message: "Authorization process failed. \nError: \(String(describing: error)). \nResponse: \(response?.responseText ?? "No response").")
                 handleTask(nil)
             }
         }

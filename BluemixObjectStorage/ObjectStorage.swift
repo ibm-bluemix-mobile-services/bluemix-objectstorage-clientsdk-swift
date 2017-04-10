@@ -301,7 +301,7 @@ open class ObjectStorage {
                 if let error = error {
                     completionHandler(ObjectStorageError.from(httpError: error), nil)
                 } else {
-                    self.logger.info("Metadata retrieved :: \(headers)")
+                    self.logger.info("Metadata retrieved :: \(String(describing: headers))")
                     completionHandler(nil, headers);
                 }
             }
