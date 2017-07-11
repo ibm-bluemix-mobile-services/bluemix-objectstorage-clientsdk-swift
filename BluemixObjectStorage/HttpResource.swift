@@ -28,7 +28,7 @@ internal struct HttpResource{
 	
 	var uri:String{
 		get{
-			return schema + "://" + host + ":" + port + path
+		    return schema + "://" + host + path
 		}
 	}
 		
