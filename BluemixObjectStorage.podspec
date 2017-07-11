@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'BluemixObjectStorage'
-  s.version      = '1.0.1'
+  s.version      = '1.0.2'
   s.summary      = 'Bluemix Object Storage SDK'
   s.homepage     = 'https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-clientsdk-swift'
   s.license      = 'Apache License, Version 2.0'
