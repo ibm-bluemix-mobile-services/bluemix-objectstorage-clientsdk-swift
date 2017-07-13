@@ -88,10 +88,10 @@ private extension HttpClient{
         if let headers = headers {
             request.headers = headers
         }
-        let networkRequestCompletionHandler = { (response: Response?, argerr: Error?) -> Void in
-            guard argerr == nil, response != nil else {
+        let networkRequestCompletionHandler = { (response: Response?, error: Error?) -> Void in
+            guard error == nil, response != nil else {
                 self.logger.error(String(describing: HttpError.connectionFailure))
-                self.logger.error(argerr.debugDescription)
+                self.logger.error(error.debugDescription)
                 completionHandler(HttpError.connectionFailure, nil, nil, nil)
                 return
             }
