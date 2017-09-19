@@ -1,3 +1,9 @@
+- - -
+
+**_This project has been deprecated and is no longer actively maintained. Proceed at your own risk!_**
+
+- - - 
+
 <img src="https://bluemixassets.eu-gb.mybluemix.net/api/Products/image/logos/object-storage.svg?key=[bluemix-objectstorage-clientsdk-swift]&event=readme-image-view" alt="[BluemixObjectStorageSDK]" width="200px"/>
 
 ## Object Storage
